@@ -87,6 +87,7 @@ javascript:(function () {
             if (!currentName) {
                 let newName = document.getElementById('engineerName').value;
                 setLocalStorage('name', newName);
+                currentName = newName;
             }
         });
 
