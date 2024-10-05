@@ -75,34 +75,23 @@ javascript:(function () {
         nameInput.type = 'text';
         nameInput.placeholder = !currentName ? 'Enter Name' : currentName;
 
-        let saveName = document.createElement('button');
-        saveName.textContent = 'Save';
-        saveName.disabled = currentName;
-        saveName.style.padding = '2px 8px';
-        saveName.style.borderRadius = '1rem';
-        saveName.style.backgroundColor = 'grey';
-        saveName.style.cursor = 'pointer';
+        let saveBtn = document.createElement('button');
+        saveBtn.textContent = 'Save';
+        saveBtn.disabled = currentName && currentRegion;
+        saveBtn.style.padding = '2px 8px';
+        saveBtn.style.borderRadius = '1rem';
+        saveBtn.style.backgroundColor = 'grey';
+        saveBtn.style.cursor = 'pointer';
 
-        saveName.addEventListener('click' , () => {
+        saveBtn.addEventListener('click' , () => {
+            let regionSelection = document.getElementById('regionSelect').value;
+
             if (!currentName) {
                 let newName = document.getElementById('engineerName').value;
                 setLocalStorage('name', newName);
+                setLocalStorage('region', regionSelection);
                 currentName = newName;
             }
-        });
-
-        let saveRegion = document.createElement('button');
-        saveRegion.textContent = 'Save';
-        saveRegion.disabled = currentRegion;
-        saveRegion.style.padding = '2px 8px';
-        saveRegion.style.borderRadius = '1rem';
-        saveRegion.style.backgroundColor = 'grey';
-        saveRegion.style.cursor = 'pointer';
-
-        saveRegion.addEventListener('click' , () => {
-            let regionSelection = document.getElementById('regionSelect').value;
-
-            setLocalStorage('region', regionSelection);
         });
 
         let nextButton = document.createElement('button');
@@ -117,13 +106,12 @@ javascript:(function () {
             displayEnoughInformationToTriage(currentRegion, currentName);
         });
 
-        btnContainer.appendChild(saveRegion);
         btnContainer.appendChild(nextButton);
 
         overlay.appendChild(title);
         overlay.appendChild(dropdownContainer);
         overlay.appendChild(nameInput);
-        overlay.appendChild(saveName);
+        overlay.appendChild(saveBtn);
         overlay.appendChild(btnContainer);
         document.body.appendChild(overlay);
     };
@@ -209,8 +197,9 @@ javascript:(function () {
 
     const displayTemplate = (region, name) => {
         const quashTemplate = {
-            id: 'quashTemplate',
-            responseNo: `Thank you for reaching out to Pega GCS Support, we are currently routing your request to the appropriate engineer for this request. You will be notified once an engineer has been assigned. Regards, ${name}`
+            responseNo: `Thank you for reaching out to Pega GCS Support, we are currently routing your request to the appropriate engineer for this request. You will be notified once an engineer has been assigned. Regards, ${name}`,
+            selfTriaging: `#uxpx${region.toLowerCase()}-global #uxpxquashed`,
+            triaging: `#uxpxquashed`
         };
 
         let overlay = document.createElement('div');
@@ -229,24 +218,42 @@ javascript:(function () {
         overlay.style.borderRadius  = '8px';
         overlay.style.padding  = '1rem';
 
-        let title = document.createElement('h');
-        title.textContent = 'Quashing Template Generator';
+        let title = document.createElement('h3');
+        title.textContent = 'Quashing Template';
         title.style.color = 'black';
 
         let template = document.createElement('p');
-        template.id  = 'quashTemplate.id';
+        template.id  = 'quashTemplate';
         template.textContent = quashTemplate.responseNo;
         template.style.color = 'black';
 
-        let copyBtn = document.createElement('button');
-        copyBtn.textContent = 'Copy';
-        copyBtn.style.padding = '2px 8px';
-        copyBtn.style.borderRadius = '1rem';
-        copyBtn.style.backgroundColor = 'grey';
-        copyBtn.style.cursor = 'pointer';
+        let hashTags = document.createElement('p');
+        hashTags.id  = 'quashTags';
+        hashTags.textContent = quashTemplate.selfTriaging;
+        hashTags.style.color = 'black';
 
-        copyBtn.addEventListener('click', () => {
+        let copyResponse = document.createElement('button');
+        copyResponse.textContent = 'Copy';
+        copyResponse.style.padding = '2px 8px';
+        copyResponse.style.borderRadius = '1rem';
+        copyResponse.style.backgroundColor = 'grey';
+        copyResponse.style.cursor = 'pointer';
+
+        copyResponse.addEventListener('click', () => {
             const selection = document.getElementById('quashTemplate').textContent;
+
+            navigator.clipboard.writeText(selection);
+        });
+
+        let copyHashtags = document.createElement('button');
+        copyHashtags.textContent = 'Copy';
+        copyHashtags.style.padding = '2px 8px';
+        copyHashtags.style.borderRadius = '1rem';
+        copyHashtags.style.backgroundColor = 'grey';
+        copyHashtags.style.cursor = 'pointer';
+
+        copyHashtags.addEventListener('click', () => {
+            const selection = document.getElementById('quashTags').textContent;
 
             navigator.clipboard.writeText(selection);
         });
@@ -254,7 +261,9 @@ javascript:(function () {
 
         overlay.appendChild(title);
         overlay.appendChild(template);
-        overlay.appendChild(copyBtn);
+        overlay.appendChild(copyResponse);
+        overlay.appendChild(hashTags);
+        overlay.appendChild(copyHashtags);
         document.body.appendChild(overlay);
     };
 
