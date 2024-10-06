@@ -142,7 +142,6 @@ javascript:(function () {
     };
 
     const setLocalStorage = (name, param) => {
-        console.log('setting' , name, param);
         localStorage.setItem(name, param);
     };
 
@@ -222,15 +221,26 @@ javascript:(function () {
         })
     };
 
-    const displayTemplate = (region, name, questionList) => {
-        console.log(questionList);
+    const displayTemplate = (region, name, questionList = null) => {
         const quashTemplate = {
-            responseNo: 
+            responseYes:
             `Thank you for reaching out to Pega GCS Support,
-            We are currently routing your request to the appropriate engineer for this request. You will be notified once an engineer has been assigned.
-            Regards, ${name}`,
-            selfTriaging: `#uxpx${region.toLowerCase()}-global #uxpxquashed`,
-            triaging: `#uxpxquashed`
+            \nWe are currently routing your request to the appropriate engineer for this request. You will be notified once an engineer has been assigned.
+            \nRegards,
+            \n      ${name}`,
+            responseNo:
+            `Thank you for reaching out to Pega GCS Support,
+            \nWe are currently routing your request to the appropriate engineer for this request. While we are looking for an engineer can you provide additional information to help expidite a resolution.
+            \n${(function listQuestions() {
+                return questionList?.map(question => `\n${question}`);
+            })()}\n
+            \nRegards,
+            \n      ${name}`,
+            selfTriaging: 
+            `#uxpx${region.toLowerCase()}-global
+            \n#uxpxquashed`,
+            triaging: 
+            `#uxpxquashed`
         };
 
         let overlay = document.createElement('div');
@@ -256,7 +266,12 @@ javascript:(function () {
 
         let template = document.createElement('p');
         template.id  = 'quashTemplate';
-        template.textContent = quashTemplate.responseNo;
+        if (questionList != null) {
+            template.textContent = quashTemplate.responseNo;
+        }
+        else {
+            template.textContent = quashTemplate.responseYes;
+        }
         template.style.margin = 0;
         template.style.color = 'black';
 
@@ -274,7 +289,7 @@ javascript:(function () {
         copyResponse.style.cursor = 'pointer';
 
         copyResponse.addEventListener('click', () => {
-            const selection = document.getElementById('quashTemplate').textContent;
+            let selection = document.getElementById('quashTemplate').textContent;
 
             navigator.clipboard.writeText(selection);
         });
@@ -352,7 +367,6 @@ javascript:(function () {
             questionCheckbox.style.color = 'black';
     
             let questionLabel = document.createElement('label');
-            questionLabel.id  = 'quashTemplate';
             questionLabel.textContent = quashQuestions[question];
             questionLabel.style.margin = 0;
             questionLabel.style.color = 'black';
