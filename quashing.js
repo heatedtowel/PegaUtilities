@@ -318,10 +318,18 @@ javascript:(function () {
 
     const displayQuestions = (region, name) => {
         const quashQuestions = {
-            image: 'Can you provide images or screenshots?',
-            logs: 'Can you provide tracer or logs?',
-            troubleshooting: 'Have you attempted any troubleshooting steps, if so, what were they?',
             customized: 'Is the section being used customized from OOTB?',
+            track: 'Please provide a Pega trace of the working / non-working scenario, if possible.',
+            environment: 'Is this happening in all environments? ex. Production, Dev, Testing?',
+            image: 'Can you provide images or screenshots?',
+            occurance: 'When did this issue first occur?',
+            recurring: 'Is this issue recurring, or did it only happen once?',
+            updates: 'Has anythig changed in the environment recently? ex. Updates, new integrations, configuration changes?',
+            affectedUsers: 'Are all users or departments affected?',
+            error: 'Is there a specific error message or code?',
+            specificDevice: 'Is this issue occuring on a specific device or browser?',
+            integrations: 'Are there any specific integrations or third party systems involved?',
+            troubleshooting: 'Have you attempted any troubleshooting steps, if so, what were they?',
         };
 
         let overlay = document.createElement('div');
