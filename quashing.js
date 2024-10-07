@@ -400,6 +400,7 @@ javascript:(function () {
                     questionList.push(quashQuestions[question]);
                 }
             }
+            overlay.removeChild(questionContainer);
             displayTemplate(region, name, questionList);
         });
 
