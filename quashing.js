@@ -230,7 +230,7 @@ javascript:(function () {
             \n      ${name}`,
             responseNo:
             `Thank you for reaching out to Pega GCS Support,
-            \nWe are currently routing your request to the appropriate engineer for this request. While we are looking for an engineer can you provide additional information to help expidite a resolution.
+            \nWe are currently routing your request to the appropriate engineer for this request. While we are looking for an engineer can you provide additional information to help expedite a resolution.
             \n${(function listQuestions() {
                 return questionList?.map(question => `\n${question}`);
             })()}\n
@@ -324,7 +324,7 @@ javascript:(function () {
             image: 'Can you provide images or screenshots?',
             occurance: 'When did this issue first occur?',
             recurring: 'Is this issue recurring, or did it only happen once?',
-            updates: 'Has anythig changed in the environment recently? ex. Updates, new integrations, configuration changes?',
+            updates: 'Has anything changed in the environment recently? ex. Updates, new integrations, configuration changes?',
             affectedUsers: 'Are all users or departments affected?',
             error: 'Is there a specific error message or code?',
             specificDevice: 'Is this issue occuring on a specific device or browser?',
