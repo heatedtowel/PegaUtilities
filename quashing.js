@@ -13,25 +13,31 @@ javascript:(function () {
         displayRegionSelect();
     };
 
-    const displayRegionSelect = () => {
-        let regionOptions = ['NCSA', 'EMEA', 'APAC'];
-        let currentRegion = getLocalStorage('region');
-        let currentName = getLocalStorage('name');
-
+    const createOverlay = () => {
         let overlay = document.createElement('div');
         overlay.className = 'bookMarklet';
         overlay.style.position = 'fixed';
-        overlay.style.top = '20%';
-        overlay.style.left = '35%';
+        overlay.style.top = '10%';
+        overlay.style.left = '15%';
         overlay.style.backgroundColor = '#f0f0f0';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
         overlay.style.flexDirection = 'column';
         overlay.style.alignItems = 'center';
         overlay.style.justifyContent = 'center';
-        overlay.style.textAlign = 'center';
+        overlay.style.flexWrap = 'wrap';
         overlay.style.borderRadius  = '8px';
         overlay.style.padding  = '1rem';
+
+        return overlay;
+    };
+
+    const displayRegionSelect = () => {
+        let regionOptions = ['NCSA', 'EMEA', 'APAC'];
+        let currentRegion = getLocalStorage('region');
+        let currentName = getLocalStorage('name');
+
+        let overlay = createOverlay();
 
         let title = document.createElement('h2');
         title.textContent = 'Quashing Template Generator';
@@ -50,7 +56,7 @@ javascript:(function () {
         dropdownContainer.style.alignItems = 'flex-start';
         dropdownContainer.style.justifyContent = 'center';
 
-        let dropdownLabel = document.createElement('label');
+        let dropdownLabel = document.createElement('h3');
         dropdownLabel.setAttribute('for', 'regionSelect');
         dropdownLabel.textContent = !currentRegion ? 'Please select your region and name' : 'Region and name saved';
         dropdownLabel.style.color = 'black';
@@ -92,6 +98,9 @@ javascript:(function () {
 
             if (!currentName) {
                 let newName = document.getElementById('engineerName').value;
+                if (!newName || !regionSelection) {
+                    return alert('Both name and region are required');
+                }
                 setLocalStorage('name', newName);
                 setLocalStorage('region', regionSelection);
                 currentName = newName;
@@ -156,20 +165,7 @@ javascript:(function () {
     const displayEnoughInformationToTriage = (region, name) => {
         const informationOptions = ['Yes', 'No'];
 
-        let overlay = document.createElement('div');
-        overlay.className = 'bookMarklet';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '20%';
-        overlay.style.left = '35%';
-        overlay.style.backgroundColor = '#f0f0f0';
-        overlay.style.display = 'flex';
-        overlay.style.gap = '5px';
-        overlay.style.flexDirection = 'column';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.textAlign = 'center';
-        overlay.style.borderRadius  = '8px';
-        overlay.style.padding  = '1rem';
+        let overlay = createOverlay();
 
         let dropdownContainer = document.createElement('div');
         dropdownContainer.style.display = 'flex';
@@ -237,21 +233,7 @@ javascript:(function () {
         };
         const quashTags = [`#uxpx${region.toLowerCase()}-global`,`#uxpx${region.toLowerCase()}-return`,'#uxpxquashed'];
 
-        let overlay = document.createElement('div');
-        overlay.className = 'bookMarklet';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '20%';
-        overlay.style.left = '35%';
-        overlay.style.width = '25%';
-        overlay.style.backgroundColor = '#f0f0f0';
-        overlay.style.display = 'flex';
-        overlay.style.gap = '5px';
-        overlay.style.flexDirection = 'column';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.textAlign = 'center';
-        overlay.style.borderRadius  = '8px';
-        overlay.style.padding  = '1rem';
+        let overlay = createOverlay();
 
         let title = document.createElement('h3');
         title.textContent = 'Quashing Template';
@@ -269,6 +251,12 @@ javascript:(function () {
         template.style.margin = 0;
         template.style.color = 'black';
 
+        let tagContainer = document.createElement('div');
+        tagContainer.style.display = 'flex';
+        tagContainer.style.gap = '1rem';
+        tagContainer.style.alignItems = 'center';
+        tagContainer.style.justifyContent = 'center';
+
         const generateTags = () => {
             quashTags.map(tag => {
             let hashTags = document.createElement('p');
@@ -278,7 +266,7 @@ javascript:(function () {
             hashTags.style.color = 'black';
 
             let copyHashtags = document.createElement('button');
-            copyHashtags.textContent = 'Copy Tags';
+            copyHashtags.textContent = 'Copy';
             copyHashtags.setAttribute('data-tag', tag);
             copyHashtags.title = `copy ${tag}`;
             copyHashtags.style.padding = '2px 8px';
@@ -292,9 +280,10 @@ javascript:(function () {
     
                 navigator.clipboard.writeText(selection);
             });
-            overlay.appendChild(hashTags);
-            overlay.appendChild(copyHashtags);
+            tagContainer.appendChild(hashTags);
+            tagContainer.appendChild(copyHashtags);
             });
+            overlay.appendChild(tagContainer);
         };
 
         let copyResponse = document.createElement('button');
@@ -333,21 +322,7 @@ javascript:(function () {
             troubleshooting: 'Have you attempted any troubleshooting steps, if so, what were they?',
         };
 
-        let overlay = document.createElement('div');
-        overlay.className = 'bookMarklet';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '20%';
-        overlay.style.left = '35%';
-        overlay.style.width = '40%';
-        overlay.style.backgroundColor = '#f0f0f0';
-        overlay.style.display = 'flex';
-        overlay.style.gap = '5px';
-        overlay.style.flexDirection = 'column';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.textAlign = 'center';
-        overlay.style.borderRadius  = '8px';
-        overlay.style.padding  = '1rem';
+        let overlay = createOverlay();
 
         let title = document.createElement('h3');
         title.textContent = 'Please Select Questions';
