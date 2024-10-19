@@ -29,6 +29,28 @@ javascript:(function () {
         overlay.style.flexWrap = 'wrap';
         overlay.style.borderRadius  = '8px';
         overlay.style.padding  = '1rem';
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+
+        let header = document.createElement('div');
+        header.style.display = 'flex';
+        header.style.alignItems = 'center';
+        header.style.justifyContent = 'flex-end';
+        header.style.height = '30px';
+        header.style.width = '100%';
+
+        let closeBtn = document.createElement('button');
+        closeBtn.textContent = 'X';
+        closeBtn.setAttribute('aria-label', 'close');
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.backgroundColor = 'lightGrey';
+
+        closeBtn.addEventListener('click', () => {
+            overlay.remove();
+        });
+
+        header.appendChild(closeBtn);
+        overlay.appendChild(header);
 
         return overlay;
     };
@@ -88,13 +110,14 @@ javascript:(function () {
 
         let saveBtn = document.createElement('button');
         saveBtn.textContent = 'Save';
+        saveBtn.setAttribute('aria-label', 'Save');
         saveBtn.disabled = currentName && currentRegion;
         saveBtn.style.padding = '2px 8px';
         saveBtn.style.borderRadius = '1rem';
-        saveBtn.style.backgroundColor = 'grey';
+        saveBtn.style.backgroundColor = 'lightGrey';
         saveBtn.style.cursor = 'pointer';
 
-        saveBtn.addEventListener('click' , () => {
+        saveBtn.addEventListener('click', () => {
             let regionSelection = document.getElementById('regionSelect').value;
 
             if (!currentName) {
@@ -113,9 +136,10 @@ javascript:(function () {
 
         let resetBtn = document.createElement('button');
         resetBtn.textContent = 'Reset';
+        resetBtn.setAttribute('aria-label', 'Reset Username and Region');
         resetBtn.style.padding = '2px 8px';
         resetBtn.style.borderRadius = '1rem';
-        resetBtn.style.backgroundColor = 'grey';
+        resetBtn.style.backgroundColor = 'lightGrey';
         resetBtn.style.cursor = 'pointer';
 
         resetBtn.addEventListener('click' , () => {
@@ -126,9 +150,10 @@ javascript:(function () {
 
         let nextButton = document.createElement('button');
         nextButton.textContent = 'Next';
+        nextButton.setAttribute('aria-label', 'Next');
         nextButton.style.padding = '2px 8px';
         nextButton.style.borderRadius = '1rem';
-        nextButton.style.backgroundColor = 'grey';
+        nextButton.style.backgroundColor = 'lightGrey';
         nextButton.style.cursor = 'pointer';
 
         nextButton.addEventListener('click' , () => {
@@ -194,9 +219,10 @@ javascript:(function () {
 
         let nextButton = document.createElement('button');
         nextButton.textContent = 'Next';
+        nextButton.setAttribute('aria-label', 'Next');
         nextButton.style.padding = '2px 8px';
         nextButton.style.borderRadius = '1rem';
-        nextButton.style.backgroundColor = 'grey';
+        nextButton.style.backgroundColor = 'lightGrey';
         nextButton.style.cursor = 'pointer';
 
         dropdownContainer.appendChild(dropdownLabel);
@@ -281,11 +307,12 @@ javascript:(function () {
             let copyHashtags = document.createElement('button');
             copyHashtags.id = `copy${tag}`;
             copyHashtags.textContent = 'Copy';
+            copyHashtags.setAttribute('aria-label', 'Copy Hashtag');
             copyHashtags.setAttribute('data-tag', tag);
             copyHashtags.title = `copy ${tag}`;
             copyHashtags.style.padding = '2px 8px';
             copyHashtags.style.borderRadius = '1rem';
-            copyHashtags.style.backgroundColor = 'grey';
+            copyHashtags.style.backgroundColor = 'lightGrey';
             copyHashtags.style.cursor = 'pointer';
     
             copyHashtags.addEventListener('click', (e) => {
@@ -302,9 +329,10 @@ javascript:(function () {
 
         let copyResponse = document.createElement('button');
         copyResponse.textContent = 'Copy Response';
+        copyResponse.setAttribute('aria-label', 'Copy Response');
         copyResponse.style.padding = '2px 8px';
         copyResponse.style.borderRadius = '1rem';
-        copyResponse.style.backgroundColor = 'grey';
+        copyResponse.style.backgroundColor = 'lightGrey';
         copyResponse.style.cursor = 'pointer';
 
         copyResponse.addEventListener('click', (e) => {
@@ -379,9 +407,10 @@ javascript:(function () {
 
         let nextButton = document.createElement('button');
         nextButton.textContent = 'Next';
+        nextButton.setAttribute('aria-label', 'Next');
         nextButton.style.padding = '2px 8px';
         nextButton.style.borderRadius = '1rem';
-        nextButton.style.backgroundColor = 'grey';
+        nextButton.style.backgroundColor = 'lightGrey';
         nextButton.style.cursor = 'pointer';
 
         nextButton.addEventListener('click', () => {
