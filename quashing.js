@@ -19,6 +19,7 @@ javascript:(function () {
         overlay.style.position = 'fixed';
         overlay.style.top = '10%';
         overlay.style.left = '15%';
+        overlay.style.width = '500px';
         overlay.style.backgroundColor = '#f0f0f0';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
@@ -58,8 +59,8 @@ javascript:(function () {
 
         let dropdownLabel = document.createElement('h2');
         dropdownLabel.setAttribute('for', 'regionSelect');
-        dropdownLabel.textContent = !currentRegion ? 'Please select your region and name' : 'Region and name saved';
-        dropdownLabel.style.color = 'black';
+        dropdownLabel.textContent = !currentRegion && !currentName ? 'Please select your region and name' : 'Region and name saved';
+        dropdownLabel.style.color = !currentRegion && !currentName ? 'red' : 'green';
 
         let selectElement = document.createElement('select');
         selectElement.name = 'regions';
@@ -236,6 +237,15 @@ javascript:(function () {
 
         let overlay = createOverlay();
 
+        let responseContainer = document.createElement('div');
+        responseContainer.style.display = 'flex';
+        responseContainer.style.flexDirection = 'column';
+        responseContainer.style.gap = '1rem';
+        responseContainer.style.flexWrap = 'wrap';
+        responseContainer.style.alignItems = 'center';
+        responseContainer.style.justifyContent = 'center';
+        responseContainer.style.width = 'fit-content';
+
         let title = document.createElement('h1');
         title.textContent = 'Quashing Template';
         title.style.margin = 0;
@@ -266,6 +276,7 @@ javascript:(function () {
             hashTags.textContent = tag;
             hashTags.style.margin = 0;
             hashTags.style.color = 'black';
+            hashTags.style.fontSize = '1.6rem';
 
             let copyHashtags = document.createElement('button');
             copyHashtags.id = `copy${tag}`;
@@ -304,9 +315,10 @@ javascript:(function () {
             navigator.clipboard.writeText(selection.textContent);
         });
 
-        overlay.appendChild(title);
-        overlay.appendChild(template);
-        overlay.appendChild(copyResponse);
+        responseContainer.appendChild(title);
+        responseContainer.appendChild(template);
+        responseContainer.appendChild(copyResponse);
+        overlay.appendChild(responseContainer);
         generateTags();
         document.body.appendChild(overlay);
     };
