@@ -23,7 +23,6 @@ javascript:(function () {
         overlay.style.position = 'fixed';
         overlay.style.top = '20%';
         overlay.style.left = '35%';
-        overlay.style.width = '40%';
         overlay.style.backgroundColor = '#f0f0f0';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
@@ -162,7 +161,6 @@ javascript:(function () {
         overlay.style.position = 'fixed';
         overlay.style.top = '20%';
         overlay.style.left = '35%';
-        overlay.style.width = '40%';
         overlay.style.backgroundColor = '#f0f0f0';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
@@ -179,7 +177,7 @@ javascript:(function () {
         dropdownContainer.style.alignItems = 'flex-start';
         dropdownContainer.style.justifyContent = 'center';
 
-        let dropdownLabel = document.createElement('label');
+        let dropdownLabel = document.createElement('h3');
         dropdownLabel.setAttribute('for', 'informationToTriage');
         dropdownLabel.textContent = 'Did the client provide enough information to triage?';
         dropdownLabel.style.color = 'black';
@@ -235,20 +233,16 @@ javascript:(function () {
                 return questionList?.map(question => `\n${question}`);
             })()}\n
             \nRegards,
-            \n      ${name}`,
-            selfTriaging: 
-            `#uxpx${region.toLowerCase()}-global
-            \n#uxpxquashed`,
-            triaging: 
-            `#uxpxquashed`
+            \n      ${name}`
         };
+        const quashTags = [`#uxpx${region.toLowerCase()}-global`,`#uxpx${region.toLowerCase()}-return`,'#uxpxquashed'];
 
         let overlay = document.createElement('div');
         overlay.className = 'bookMarklet';
         overlay.style.position = 'fixed';
         overlay.style.top = '20%';
         overlay.style.left = '35%';
-        overlay.style.width = '40%';
+        overlay.style.width = '25%';
         overlay.style.backgroundColor = '#f0f0f0';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
@@ -275,11 +269,33 @@ javascript:(function () {
         template.style.margin = 0;
         template.style.color = 'black';
 
-        let hashTags = document.createElement('p');
-        hashTags.id  = 'quashTags';
-        hashTags.textContent = quashTemplate.selfTriaging;
-        hashTags.style.margin = 0;
-        hashTags.style.color = 'black';
+        const generateTags = () => {
+            quashTags.map(tag => {
+            let hashTags = document.createElement('p');
+            hashTags.id  = tag;
+            hashTags.textContent = tag;
+            hashTags.style.margin = 0;
+            hashTags.style.color = 'black';
+
+            let copyHashtags = document.createElement('button');
+            copyHashtags.textContent = 'Copy Tags';
+            copyHashtags.setAttribute('data-tag', tag);
+            copyHashtags.title = `copy ${tag}`;
+            copyHashtags.style.padding = '2px 8px';
+            copyHashtags.style.borderRadius = '1rem';
+            copyHashtags.style.backgroundColor = 'grey';
+            copyHashtags.style.cursor = 'pointer';
+    
+            copyHashtags.addEventListener('click', (e) => {
+                console.log(e.target.dataset.tag);
+                const selection = document.getElementById(`${e.target.dataset.tag}`).textContent;
+    
+                navigator.clipboard.writeText(selection);
+            });
+            overlay.appendChild(hashTags);
+            overlay.appendChild(copyHashtags);
+            });
+        };
 
         let copyResponse = document.createElement('button');
         copyResponse.textContent = 'Copy Response';
@@ -294,25 +310,10 @@ javascript:(function () {
             navigator.clipboard.writeText(selection);
         });
 
-        let copyHashtags = document.createElement('button');
-        copyHashtags.textContent = 'Copy Tags';
-        copyHashtags.style.padding = '2px 8px';
-        copyHashtags.style.borderRadius = '1rem';
-        copyHashtags.style.backgroundColor = 'grey';
-        copyHashtags.style.cursor = 'pointer';
-
-        copyHashtags.addEventListener('click', () => {
-            const selection = document.getElementById('quashTags').textContent;
-
-            navigator.clipboard.writeText(selection);
-        });
-
-
         overlay.appendChild(title);
         overlay.appendChild(template);
         overlay.appendChild(copyResponse);
-        overlay.appendChild(hashTags);
-        overlay.appendChild(copyHashtags);
+        generateTags();
         document.body.appendChild(overlay);
     };
 
