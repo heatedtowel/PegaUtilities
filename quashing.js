@@ -39,7 +39,7 @@ javascript:(function () {
 
         let overlay = createOverlay();
 
-        let title = document.createElement('h2');
+        let title = document.createElement('h1');
         title.textContent = 'Quashing Template Generator';
         title.style.margin = 0;
         title.style.color = 'black';
@@ -56,7 +56,7 @@ javascript:(function () {
         dropdownContainer.style.alignItems = 'flex-start';
         dropdownContainer.style.justifyContent = 'center';
 
-        let dropdownLabel = document.createElement('h3');
+        let dropdownLabel = document.createElement('h2');
         dropdownLabel.setAttribute('for', 'regionSelect');
         dropdownLabel.textContent = !currentRegion ? 'Please select your region and name' : 'Region and name saved';
         dropdownLabel.style.color = 'black';
@@ -169,11 +169,12 @@ javascript:(function () {
 
         let dropdownContainer = document.createElement('div');
         dropdownContainer.style.display = 'flex';
+        dropdownContainer.style.gap = '1.5rem';
         dropdownContainer.style.flexDirection ='column';
-        dropdownContainer.style.alignItems = 'flex-start';
+        dropdownContainer.style.alignItems = 'center';
         dropdownContainer.style.justifyContent = 'center';
 
-        let dropdownLabel = document.createElement('h3');
+        let dropdownLabel = document.createElement('h2');
         dropdownLabel.setAttribute('for', 'informationToTriage');
         dropdownLabel.textContent = 'Did the client provide enough information to triage?';
         dropdownLabel.style.color = 'black';
@@ -235,7 +236,7 @@ javascript:(function () {
 
         let overlay = createOverlay();
 
-        let title = document.createElement('h3');
+        let title = document.createElement('h1');
         title.textContent = 'Quashing Template';
         title.style.margin = 0;
         title.style.color = 'black';
@@ -250,6 +251,7 @@ javascript:(function () {
         }
         template.style.margin = 0;
         template.style.color = 'black';
+        template.style.fontSize = '1.6rem';
 
         let tagContainer = document.createElement('div');
         tagContainer.style.display = 'flex';
@@ -266,6 +268,7 @@ javascript:(function () {
             hashTags.style.color = 'black';
 
             let copyHashtags = document.createElement('button');
+            copyHashtags.id = `copy${tag}`;
             copyHashtags.textContent = 'Copy';
             copyHashtags.setAttribute('data-tag', tag);
             copyHashtags.title = `copy ${tag}`;
@@ -276,9 +279,10 @@ javascript:(function () {
     
             copyHashtags.addEventListener('click', (e) => {
                 console.log(e.target.dataset.tag);
-                const selection = document.getElementById(`${e.target.dataset.tag}`).textContent;
-    
-                navigator.clipboard.writeText(selection);
+                const selection = document.getElementById(`${e.target.dataset.tag}`);
+
+                e.target.textContent = 'Copied';
+                navigator.clipboard.writeText(selection.textContent);
             });
             tagContainer.appendChild(hashTags);
             tagContainer.appendChild(copyHashtags);
@@ -293,10 +297,11 @@ javascript:(function () {
         copyResponse.style.backgroundColor = 'grey';
         copyResponse.style.cursor = 'pointer';
 
-        copyResponse.addEventListener('click', () => {
-            let selection = document.getElementById('quashTemplate').textContent;
+        copyResponse.addEventListener('click', (e) => {
+            let selection = document.getElementById('quashTemplate');
 
-            navigator.clipboard.writeText(selection);
+            e.target.textContent = 'Copied';
+            navigator.clipboard.writeText(selection.textContent);
         });
 
         overlay.appendChild(title);
@@ -324,7 +329,7 @@ javascript:(function () {
 
         let overlay = createOverlay();
 
-        let title = document.createElement('h3');
+        let title = document.createElement('h1');
         title.textContent = 'Please Select Questions';
         title.style.margin = 0;
         title.style.color = 'black';
@@ -354,6 +359,7 @@ javascript:(function () {
             questionLabel.textContent = quashQuestions[question];
             questionLabel.style.margin = 0;
             questionLabel.style.color = 'black';
+            questionLabel.style.fontSize = '1.6rem';
 
             checkboxContainer.appendChild(questionCheckbox);
             checkboxContainer.appendChild(questionLabel);
