@@ -289,7 +289,6 @@ javascript:(function () {
             copyHashtags.style.cursor = 'pointer';
     
             copyHashtags.addEventListener('click', (e) => {
-                console.log(e.target.dataset.tag);
                 const selection = document.getElementById(`${e.target.dataset.tag}`);
 
                 e.target.textContent = 'Copied';
