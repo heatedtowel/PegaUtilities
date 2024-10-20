@@ -89,10 +89,11 @@ javascript:(function () {
     };
 
     const displayRegionSelect = () => {
-        let regionOptions = ['NCSA', 'EMEA', 'APAC'];
-        let featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Constellation'];
-        let currentRegion = getLocalStorage('region');
-        let currentName = getLocalStorage('name');
+        const regionOptions = ['NCSA', 'EMEA', 'APAC'];
+        const featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Constellation'];
+        const currentRegion = getLocalStorage('region');
+        const currentName = getLocalStorage('name');
+        const informationOptions = ['Yes', 'No'];
 
         let overlay = createOverlay();
 
@@ -162,6 +163,33 @@ javascript:(function () {
         featureContainer.appendChild(featureLabel);
         featureContainer.appendChild(featureDropdown);
 
+        let triageInfoContainer = document.createElement('div');
+        triageInfoContainer.style.display = 'flex';
+        triageInfoContainer.style.gap = '1.5rem';
+        triageInfoContainer.style.flexDirection ='column';
+        triageInfoContainer.style.alignItems = 'center';
+        triageInfoContainer.style.justifyContent = 'center';
+
+        let triageDropdownLabel = document.createElement('h2');
+        triageDropdownLabel.setAttribute('for', 'informationToTriage');
+        triageDropdownLabel.textContent = 'Did the client provide enough information to triage?';
+        triageDropdownLabel.style.color = 'black';
+
+        let triageSelectElement = document.createElement('select');
+        triageSelectElement.name = 'informationSelection';
+        triageSelectElement.id = 'informationToTriage';
+
+        informationOptions.map(option => {
+            let newOption = document.createElement('option');
+            newOption.value = option;
+            newOption.textContent = option;
+
+            triageSelectElement.appendChild(newOption);
+        });
+
+        triageInfoContainer.appendChild(triageDropdownLabel);
+        triageInfoContainer.appendChild(triageSelectElement);
+
         let nameContainer = document.createElement('div');
         nameContainer.style.display = 'flex';
         nameContainer.style.gap = '1.2rem';
@@ -183,6 +211,7 @@ javascript:(function () {
         infoContainer.appendChild(regionContainer);
         infoContainer.appendChild(nameContainer);
         infoContainer.appendChild(featureContainer);
+        infoContainer.appendChild(triageInfoContainer);
 
         let saveBtn = document.createElement('button');
         saveBtn.textContent = 'Save';
@@ -234,12 +263,19 @@ javascript:(function () {
 
         nextButton.addEventListener('click' , () => {
             let featureSelection = document.getElementById('featureSelect').value;
+            let triageSelection = document.getElementById('informationToTriage').value;
 
             if (!currentName || !currentRegion) {
                 return alert('Both name and region are required');
             }
+
+            if (triageSelection === 'Yes') {
+                overlay.remove();
+                return displayTemplate(currentRegion, currentName);
+            }
+
             overlay.remove();
-            displayEnoughInformationToTriage(currentRegion, currentName, featureSelection);
+            displayQuestions(currentRegion, currentName, featureSelection);
         });
 
         btnContainer.appendChild(saveBtn);
@@ -263,62 +299,6 @@ javascript:(function () {
             return false;
         }
         return localItem;
-    };
-
-    const displayEnoughInformationToTriage = (region, name, featureSelection) => {
-        const informationOptions = ['Yes', 'No'];
-
-        let overlay = createOverlay();
-
-        let dropdownContainer = document.createElement('div');
-        dropdownContainer.style.display = 'flex';
-        dropdownContainer.style.gap = '1.5rem';
-        dropdownContainer.style.flexDirection ='column';
-        dropdownContainer.style.alignItems = 'center';
-        dropdownContainer.style.justifyContent = 'center';
-
-        let dropdownLabel = document.createElement('h2');
-        dropdownLabel.setAttribute('for', 'informationToTriage');
-        dropdownLabel.textContent = 'Did the client provide enough information to triage?';
-        dropdownLabel.style.color = 'black';
-
-        let selectElement = document.createElement('select');
-        selectElement.name = 'informationSelection';
-        selectElement.id = 'informationToTriage';
-
-        informationOptions.map(option => {
-            let newOption = document.createElement('option');
-            newOption.value = option;
-            newOption.textContent = option;
-
-            selectElement.appendChild(newOption);
-        });
-
-        let nextButton = document.createElement('button');
-        nextButton.textContent = 'Next';
-        nextButton.setAttribute('aria-label', 'Next');
-        nextButton.style.padding = '2px 8px';
-        nextButton.style.borderRadius = '1rem';
-        nextButton.style.backgroundColor = 'lightGrey';
-        nextButton.style.cursor = 'pointer';
-
-        dropdownContainer.appendChild(dropdownLabel);
-        dropdownContainer.appendChild(selectElement);
-        dropdownContainer.appendChild(nextButton);
-
-        overlay.appendChild(dropdownContainer);
-        document.body.appendChild(overlay);
-
-        nextButton.addEventListener('click', () => {
-            const selection = document.getElementById('informationToTriage').value;
-
-            if (selection === 'Yes') {
-                overlay.remove();
-                return displayTemplate(region, name);
-            }
-            overlay.remove();
-            displayQuestions(region, name, featureSelection);
-        })
     };
 
     const displayTemplate = (region, name, questionList = null) => {
@@ -445,10 +425,26 @@ javascript:(function () {
         };
 
         const featureQuestions = {
-            accessibility: ['test', 'one', 'two'],
-            reporting: ['test1', 'one1', 'two1'],
-            tables: ['test2', 'one2', 'two2'],
-            constellation: ['test3', 'one3', 'two3'],
+            accessibility: [
+                'What screen reader and version are you testing with?',
+                'What navigation method is being used to test?',
+                'Is there a specific WCAG success criteria being broken?'
+            ],
+            reporting: [
+                'test1',
+                'one1',
+                'two1'
+            ],
+            tables: [
+                'test2',
+                'one2',
+                'two2'
+            ],
+            constellation: [
+                'test3',
+                'one3',
+                'two3'
+            ],
         };
 
         let overlay = createOverlay();
@@ -513,7 +509,6 @@ javascript:(function () {
         
         for (const feature in featureQuestions) {
             if (feature.toLowerCase() === featureSelection.toLowerCase()) {
-                console.log('t');
                 featureQuestions[feature].map(question => {
                     let checkboxContainer = document.createElement('div');
                     checkboxContainer.style.display = 'flex';
@@ -522,7 +517,7 @@ javascript:(function () {
                     checkboxContainer.style.justifyContent = 'center';
 
                     let questionCheckbox = document.createElement('input');
-                    questionCheckbox.id  = `feature${feature}`;
+                    questionCheckbox.id  = `feature${question}`;
                     questionCheckbox.type = 'checkbox';
                     questionCheckbox.style.margin = 0;
                     questionCheckbox.style.color = 'black';
@@ -557,6 +552,16 @@ javascript:(function () {
                     questionList.push(quashQuestions[question]);
                 }
             }
+
+            featureQuestions[featureSelection.toLowerCase()].map(question => {
+                let current = document.getElementById(`feature${question}`);
+                console.log(question, current);
+
+                if (current.checked) {
+                    questionList.push(question);
+                }
+            });
+
             overlay.remove();
             displayTemplate(region, name, questionList);
         });
