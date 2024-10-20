@@ -8,13 +8,44 @@ javascript:(function () {
                 existingBookmarkletNodes[element].remove();
             }
             console.log('All elements have been cleared.');
+            document.removeEventListener(`keydown`, initTrapFocus);
             return;
         }
+        document.addEventListener(`keydown`, initTrapFocus);
         displayRegionSelect();
+    };
+
+    function initTrapFocus(e) {
+        return trapFocus(e, `bookMarkletModal`);
+    };
+
+    const trapFocus = (e, modalId) => {
+        const isTabPressed = e.key === `Tab` || e.keyCode === 9;
+      
+        if (!isTabPressed) {
+          return;
+        }
+        const focusableElements = `button, [href], input, select, textarea, iframe, [tabindex]:not([tabindex="-1"])`;
+        const modal = document.getElementById(modalId);
+      
+        const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
+        const focusableContent = modal.querySelectorAll(focusableElements);
+        const lastFocusableElement = focusableContent[focusableContent.length - 1];
+      
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusableElement) {
+            lastFocusableElement.focus();
+            e.preventDefault();
+          }
+        } else if (document.activeElement === lastFocusableElement) {
+          firstFocusableElement.focus();
+          e.preventDefault();
+        }
     };
 
     const createOverlay = () => {
         let overlay = document.createElement('div');
+        overlay.id = 'bookMarkletModal';
         overlay.className = 'bookMarklet';
         overlay.setAttribute('tabIndex', '-1');
         overlay.style.position = 'fixed';
@@ -47,6 +78,7 @@ javascript:(function () {
         closeBtn.style.borderRadius = '1rem';
 
         closeBtn.addEventListener('click', () => {
+            document.removeEventListener(`keydown`, initTrapFocus);
             overlay.remove();
         });
 
