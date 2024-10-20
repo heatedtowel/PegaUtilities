@@ -90,6 +90,7 @@ javascript:(function () {
 
     const displayRegionSelect = () => {
         let regionOptions = ['NCSA', 'EMEA', 'APAC'];
+        let featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Constellation'];
         let currentRegion = getLocalStorage('region');
         let currentName = getLocalStorage('name');
 
@@ -138,6 +139,29 @@ javascript:(function () {
         regionContainer.appendChild(dropdownLabel);
         regionContainer.appendChild(selectElement);
 
+        let featureContainer = document.createElement('div');
+        featureContainer.style.display = 'flex';
+        featureContainer.style.gap = '.5rem';
+
+        let featureLabel = document.createElement('h2');
+        featureLabel.setAttribute('for', 'featureSelect');
+        featureLabel.textContent = 'Feature';
+
+        let featureDropdown = document.createElement('select');
+        featureDropdown.name = 'features';
+        featureDropdown.id = 'featureSelect';
+
+        featureOptions.map(option => {
+            let newOption = document.createElement('option');
+            newOption.value = option;
+            newOption.textContent = option;
+
+            featureDropdown.appendChild(newOption);
+        });
+
+        featureContainer.appendChild(featureLabel);
+        featureContainer.appendChild(featureDropdown);
+
         let nameContainer = document.createElement('div');
         nameContainer.style.display = 'flex';
         nameContainer.style.gap = '1.2rem';
@@ -158,6 +182,7 @@ javascript:(function () {
 
         infoContainer.appendChild(regionContainer);
         infoContainer.appendChild(nameContainer);
+        infoContainer.appendChild(featureContainer);
 
         let saveBtn = document.createElement('button');
         saveBtn.textContent = 'Save';
@@ -208,11 +233,13 @@ javascript:(function () {
         nextButton.style.cursor = 'pointer';
 
         nextButton.addEventListener('click' , () => {
+            let featureSelection = document.getElementById('featureSelect').value;
+
             if (!currentName || !currentRegion) {
                 return alert('Both name and region are required');
             }
             overlay.remove();
-            displayEnoughInformationToTriage(currentRegion, currentName);
+            displayEnoughInformationToTriage(currentRegion, currentName, featureSelection);
         });
 
         btnContainer.appendChild(saveBtn);
@@ -238,7 +265,7 @@ javascript:(function () {
         return localItem;
     };
 
-    const displayEnoughInformationToTriage = (region, name) => {
+    const displayEnoughInformationToTriage = (region, name, featureSelection) => {
         const informationOptions = ['Yes', 'No'];
 
         let overlay = createOverlay();
@@ -290,7 +317,7 @@ javascript:(function () {
                 return displayTemplate(region, name);
             }
             overlay.remove();
-            displayQuestions(region, name);
+            displayQuestions(region, name, featureSelection);
         })
     };
 
@@ -401,7 +428,7 @@ javascript:(function () {
         document.body.appendChild(overlay);
     };
 
-    const displayQuestions = (region, name) => {
+    const displayQuestions = (region, name, featureSelection) => {
         const quashQuestions = {
             customized: 'Is the section being used customized from OOTB?',
             track: 'Please provide a Pega trace of the working / non-working scenario, if possible.',
@@ -415,6 +442,13 @@ javascript:(function () {
             specificDevice: 'Is this issue occuring on a specific device or browser?',
             integrations: 'Are there any specific integrations or third party systems involved?',
             troubleshooting: 'Have you attempted any troubleshooting steps, if so, what were they?',
+        };
+
+        const featureQuestions = {
+            accessibility: ['test', 'one', 'two'],
+            reporting: ['test1', 'one1', 'two1'],
+            tables: ['test2', 'one2', 'two2'],
+            constellation: ['test3', 'one3', 'two3'],
         };
 
         let overlay = createOverlay();
@@ -431,7 +465,13 @@ javascript:(function () {
         questionContainer.style.flexDirection = 'column';
         questionContainer.style.alignItems = 'flex-start';
         questionContainer.style.justifyContent = 'center';
-        
+
+        let generalQuestionsTitle = document.createElement('h2');
+        generalQuestionsTitle.textContent = 'General Questions';
+        generalQuestionsTitle.style.placeSelf = 'flex-start';
+        generalQuestionsTitle.style.margin = 0;
+        generalQuestionsTitle.style.color = 'black';
+
         for (const question in quashQuestions) {
             let checkboxContainer = document.createElement('div');
             checkboxContainer.style.display = 'flex';
@@ -456,6 +496,50 @@ javascript:(function () {
             questionContainer.appendChild(checkboxContainer);
         }
 
+        let featureContainer = document.createElement('div');
+        featureContainer.id = 'featureQuestions';
+        featureContainer.style.display = 'flex';
+        featureContainer.style.gap = '5px';
+        featureContainer.style.flexDirection = 'column';
+        featureContainer.style.alignItems = 'flex-start';
+        featureContainer.style.justifyContent = 'center';
+        featureContainer.style.width = '100%';
+
+        let featureQuestionsTitle = document.createElement('h2');
+        featureQuestionsTitle.textContent = `${featureSelection} Specific Questions`;
+        featureQuestionsTitle.style.placeSelf = 'flex-start';
+        featureQuestionsTitle.style.margin = 0;
+        featureQuestionsTitle.style.color = 'black';
+        
+        for (const feature in featureQuestions) {
+            if (feature.toLowerCase() === featureSelection.toLowerCase()) {
+                console.log('t');
+                featureQuestions[feature].map(question => {
+                    let checkboxContainer = document.createElement('div');
+                    checkboxContainer.style.display = 'flex';
+                    checkboxContainer.style.gap = '5px';
+                    checkboxContainer.style.alignItems = 'center';
+                    checkboxContainer.style.justifyContent = 'center';
+
+                    let questionCheckbox = document.createElement('input');
+                    questionCheckbox.id  = `feature${feature}`;
+                    questionCheckbox.type = 'checkbox';
+                    questionCheckbox.style.margin = 0;
+                    questionCheckbox.style.color = 'black';
+            
+                    let questionLabel = document.createElement('label');
+                    questionLabel.textContent = question;
+                    questionLabel.style.margin = 0;
+                    questionLabel.style.color = 'black';
+                    questionLabel.style.fontSize = '1.6rem';
+
+                    checkboxContainer.appendChild(questionCheckbox);
+                    checkboxContainer.appendChild(questionLabel);
+                    featureContainer.appendChild(checkboxContainer);
+                })
+            }
+        }
+
         let nextButton = document.createElement('button');
         nextButton.textContent = 'Next';
         nextButton.setAttribute('aria-label', 'Next');
@@ -478,7 +562,10 @@ javascript:(function () {
         });
 
         overlay.appendChild(title);
+        overlay.appendChild(generalQuestionsTitle);
         overlay.appendChild(questionContainer);
+        overlay.appendChild(featureQuestionsTitle);
+        overlay.appendChild(featureContainer);
         overlay.appendChild(nextButton);
         document.body.appendChild(overlay);
     };
