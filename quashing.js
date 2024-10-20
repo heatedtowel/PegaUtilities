@@ -500,38 +500,40 @@ javascript:(function () {
         featureContainer.style.alignItems = 'flex-start';
         featureContainer.style.justifyContent = 'center';
         featureContainer.style.width = '100%';
-
+        
         let featureQuestionsTitle = document.createElement('h2');
         featureQuestionsTitle.textContent = `${featureSelection} Specific Questions`;
         featureQuestionsTitle.style.placeSelf = 'flex-start';
         featureQuestionsTitle.style.margin = 0;
         featureQuestionsTitle.style.color = 'black';
         
-        for (const feature in featureQuestions) {
-            if (feature.toLowerCase() === featureSelection.toLowerCase()) {
-                featureQuestions[feature].map(question => {
-                    let checkboxContainer = document.createElement('div');
-                    checkboxContainer.style.display = 'flex';
-                    checkboxContainer.style.gap = '5px';
-                    checkboxContainer.style.alignItems = 'center';
-                    checkboxContainer.style.justifyContent = 'center';
+        if (featureSelection != 'General') {
+            for (const feature in featureQuestions) {
+                if (feature.toLowerCase() === featureSelection.toLowerCase()) {
+                    featureQuestions[feature].map(question => {
+                        let checkboxContainer = document.createElement('div');
+                        checkboxContainer.style.display = 'flex';
+                        checkboxContainer.style.gap = '5px';
+                        checkboxContainer.style.alignItems = 'center';
+                        checkboxContainer.style.justifyContent = 'center';
 
-                    let questionCheckbox = document.createElement('input');
-                    questionCheckbox.id  = `feature${question}`;
-                    questionCheckbox.type = 'checkbox';
-                    questionCheckbox.style.margin = 0;
-                    questionCheckbox.style.color = 'black';
-            
-                    let questionLabel = document.createElement('label');
-                    questionLabel.textContent = question;
-                    questionLabel.style.margin = 0;
-                    questionLabel.style.color = 'black';
-                    questionLabel.style.fontSize = '1.6rem';
+                        let questionCheckbox = document.createElement('input');
+                        questionCheckbox.id  = `feature${question}`;
+                        questionCheckbox.type = 'checkbox';
+                        questionCheckbox.style.margin = 0;
+                        questionCheckbox.style.color = 'black';
+                
+                        let questionLabel = document.createElement('label');
+                        questionLabel.textContent = question;
+                        questionLabel.style.margin = 0;
+                        questionLabel.style.color = 'black';
+                        questionLabel.style.fontSize = '1.6rem';
 
-                    checkboxContainer.appendChild(questionCheckbox);
-                    checkboxContainer.appendChild(questionLabel);
-                    featureContainer.appendChild(checkboxContainer);
-                })
+                        checkboxContainer.appendChild(questionCheckbox);
+                        checkboxContainer.appendChild(questionLabel);
+                        featureContainer.appendChild(checkboxContainer);
+                    })
+                }
             }
         }
 
@@ -569,7 +571,7 @@ javascript:(function () {
         overlay.appendChild(title);
         overlay.appendChild(generalQuestionsTitle);
         overlay.appendChild(questionContainer);
-        overlay.appendChild(featureQuestionsTitle);
+        featureSelection === 'General' ? null : overlay.appendChild(featureQuestionsTitle);
         overlay.appendChild(featureContainer);
         overlay.appendChild(nextButton);
         document.body.appendChild(overlay);
