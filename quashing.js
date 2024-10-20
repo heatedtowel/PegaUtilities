@@ -436,14 +436,11 @@ javascript:(function () {
                 'two1'
             ],
             tables: [
-                'test2',
-                'one2',
-                'two2'
+                'Is the table optimized or non-optimized?',
             ],
-            constellation: [
-                'test3',
-                'one3',
-                'two3'
+            cosmos: [
+                'Are userPortal or pyCaseMainInner customized?',
+                'Can you please revery the customized sections to test OOTB behavior?',
             ],
         };
 
