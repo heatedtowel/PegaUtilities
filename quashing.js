@@ -16,6 +16,7 @@ javascript:(function () {
     const createOverlay = () => {
         let overlay = document.createElement('div');
         overlay.className = 'bookMarklet';
+        overlay.setAttribute('tabIndex', '-1');
         overlay.style.position = 'fixed';
         overlay.style.top = '10%';
         overlay.style.left = '15%';
@@ -73,16 +74,20 @@ javascript:(function () {
         btnContainer.style.justifyContent = 'center';
         btnContainer.style.gap = '1rem';
 
-        let dropdownContainer = document.createElement('div');
-        dropdownContainer.style.display = 'flex';
-        dropdownContainer.style.flexDirection ='column';
-        dropdownContainer.style.alignItems = 'flex-start';
-        dropdownContainer.style.justifyContent = 'center';
+        let infoContainer = document.createElement('div');
+        infoContainer.style.display = 'flex';
+        infoContainer.style.flexDirection = 'column';
+        infoContainer.style.gap = '1rem';
+        infoContainer.style.alignItems = 'flex-start';
+        infoContainer.style.justifyContent = 'center';
+
+        let regionContainer = document.createElement('div');
+        regionContainer.style.display = 'flex';
+        regionContainer.style.gap = '.5rem';
 
         let dropdownLabel = document.createElement('h2');
         dropdownLabel.setAttribute('for', 'regionSelect');
-        dropdownLabel.textContent = !currentRegion && !currentName ? 'Please select your region and name' : 'Region and name saved';
-        dropdownLabel.style.color = !currentRegion && !currentName ? 'red' : 'green';
+        dropdownLabel.textContent = 'Region';
 
         let selectElement = document.createElement('select');
         selectElement.name = 'regions';
@@ -98,8 +103,16 @@ javascript:(function () {
             selectElement.appendChild(newOption);
         });
 
-        dropdownContainer.appendChild(dropdownLabel);
-        dropdownContainer.appendChild(selectElement);
+        regionContainer.appendChild(dropdownLabel);
+        regionContainer.appendChild(selectElement);
+
+        let nameContainer = document.createElement('div');
+        nameContainer.style.display = 'flex';
+        nameContainer.style.gap = '1.2rem';
+
+        let inputLabel = document.createElement('h2');
+        inputLabel.setAttribute('for', 'engineerName');
+        inputLabel.textContent = 'Name';
 
         let nameInput = document.createElement('input');
         nameInput.id = 'engineerName';
@@ -107,6 +120,12 @@ javascript:(function () {
         nameInput.type = 'text';
         nameInput.placeholder = !currentName ? 'Enter Name' : currentName;
         nameInput.required = true;
+
+        nameContainer.appendChild(inputLabel);
+        nameContainer.appendChild(nameInput);
+
+        infoContainer.appendChild(regionContainer);
+        infoContainer.appendChild(nameContainer);
 
         let saveBtn = document.createElement('button');
         saveBtn.textContent = 'Save';
@@ -169,8 +188,7 @@ javascript:(function () {
         btnContainer.appendChild(nextButton);
 
         overlay.appendChild(title);
-        overlay.appendChild(dropdownContainer);
-        overlay.appendChild(nameInput);
+        overlay.appendChild(infoContainer);
         overlay.appendChild(btnContainer);
         document.body.appendChild(overlay);
     };
