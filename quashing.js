@@ -36,7 +36,6 @@ javascript:(function () {
         header.style.display = 'flex';
         header.style.alignItems = 'center';
         header.style.justifyContent = 'flex-end';
-        header.style.height = '30px';
         header.style.width = '100%';
 
         let closeBtn = document.createElement('button');
@@ -44,6 +43,7 @@ javascript:(function () {
         closeBtn.setAttribute('aria-label', 'close');
         closeBtn.style.cursor = 'pointer';
         closeBtn.style.backgroundColor = 'lightGrey';
+        closeBtn.style.borderRadius = '1rem';
 
         closeBtn.addEventListener('click', () => {
             overlay.remove();
@@ -236,9 +236,10 @@ javascript:(function () {
             const selection = document.getElementById('informationToTriage').value;
 
             if (selection === 'Yes') {
+                overlay.remove();
                 return displayTemplate(region, name);
             }
-
+            overlay.remove();
             displayQuestions(region, name);
         })
     };
@@ -422,7 +423,7 @@ javascript:(function () {
                     questionList.push(quashQuestions[question]);
                 }
             }
-            overlay.removeChild(questionContainer);
+            overlay.remove();
             displayTemplate(region, name, questionList);
         });
 
