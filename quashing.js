@@ -73,6 +73,9 @@ javascript:(function () {
         let closeBtn = document.createElement('button');
         closeBtn.textContent = 'X';
         closeBtn.setAttribute('aria-label', 'close');
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '10px';
+        closeBtn.style.right = '10px';
         closeBtn.style.cursor = 'pointer';
         closeBtn.style.backgroundColor = 'lightGrey';
         closeBtn.style.borderRadius = '1rem';
@@ -552,7 +555,7 @@ javascript:(function () {
                 }
             }
 
-            featureQuestions[featureSelection.toLowerCase()].map(question => {
+            featureQuestions[featureSelection.toLowerCase()]?.map(question => {
                 let current = document.getElementById(`feature${question}`);
                 console.log(question, current);
 
