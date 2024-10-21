@@ -52,7 +52,7 @@ javascript:(function () {
         overlay.style.position = 'fixed';
         overlay.style.top = '10%';
         overlay.style.left = '15%';
-        overlay.style.width = 'fit-content';
+        overlay.style.width = '500px';
         overlay.style.backgroundColor = '#C3C3C3';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
