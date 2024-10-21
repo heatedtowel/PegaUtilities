@@ -114,13 +114,13 @@ javascript:(function () {
         let infoContainer = document.createElement('div');
         infoContainer.style.display = 'flex';
         infoContainer.style.flexDirection = 'column';
-        infoContainer.style.gap = '1rem';
+        infoContainer.style.gap = '.8rem';
         infoContainer.style.alignItems = 'flex-start';
         infoContainer.style.justifyContent = 'center';
 
         let regionContainer = document.createElement('div');
         regionContainer.style.display = 'flex';
-        regionContainer.style.gap = '.5rem';
+        regionContainer.style.gap = '.8rem';
 
         let dropdownLabel = document.createElement('h2');
         dropdownLabel.setAttribute('for', 'regionSelect');
@@ -168,10 +168,11 @@ javascript:(function () {
 
         let triageInfoContainer = document.createElement('div');
         triageInfoContainer.style.display = 'flex';
-        triageInfoContainer.style.gap = '1.5rem';
+        triageInfoContainer.style.gap = '1rem';
         triageInfoContainer.style.flexDirection ='column';
         triageInfoContainer.style.alignItems = 'center';
         triageInfoContainer.style.justifyContent = 'center';
+        triageInfoContainer.style.marginBottom = '1rem';
 
         let triageDropdownLabel = document.createElement('h2');
         triageDropdownLabel.setAttribute('for', 'informationToTriage');
@@ -195,7 +196,7 @@ javascript:(function () {
 
         let nameContainer = document.createElement('div');
         nameContainer.style.display = 'flex';
-        nameContainer.style.gap = '1.2rem';
+        nameContainer.style.gap = '1.6rem';
 
         let inputLabel = document.createElement('h2');
         inputLabel.setAttribute('for', 'engineerName');
