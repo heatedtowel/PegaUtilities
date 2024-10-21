@@ -352,7 +352,6 @@ javascript:(function () {
         }
         template.style.margin = 0;
         template.style.color = 'black';
-        template.style.fontSize = '1.5rem';
 
         let tagContainer = document.createElement('div');
         tagContainer.style.display = 'flex';
@@ -367,7 +366,6 @@ javascript:(function () {
             hashTags.textContent = tag;
             hashTags.style.margin = 0;
             hashTags.style.color = 'black';
-            hashTags.style.fontSize = '1.5rem';
 
             let copyHashtags = document.createElement('button');
             copyHashtags.id = `copy${tag}`;
@@ -489,7 +487,6 @@ javascript:(function () {
             questionLabel.textContent = quashQuestions[question];
             questionLabel.style.margin = 0;
             questionLabel.style.color = 'black';
-            questionLabel.style.fontSize = '1.5rem';
 
             checkboxContainer.appendChild(questionCheckbox);
             checkboxContainer.appendChild(questionLabel);
@@ -531,7 +528,6 @@ javascript:(function () {
                         questionLabel.textContent = question;
                         questionLabel.style.margin = 0;
                         questionLabel.style.color = 'black';
-                        questionLabel.style.fontSize = '1.5rem';
 
                         checkboxContainer.appendChild(questionCheckbox);
                         checkboxContainer.appendChild(questionLabel);
