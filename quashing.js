@@ -440,7 +440,7 @@ javascript:(function () {
             ],
             cosmos: [
                 'Are userPortal or pyCaseMainInner customized?',
-                'Can you please revery the customized sections to test OOTB behavior?',
+                'Can you please revert the customized sections to test OOTB behavior?',
             ],
         };
 
