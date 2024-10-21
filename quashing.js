@@ -90,7 +90,7 @@ javascript:(function () {
 
     const displayRegionSelect = () => {
         const regionOptions = ['NCSA', 'EMEA', 'APAC'];
-        const featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Constellation'];
+        const featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Cosmos'];
         const currentRegion = getLocalStorage('region');
         const currentName = getLocalStorage('name');
         const informationOptions = ['Yes', 'No'];
