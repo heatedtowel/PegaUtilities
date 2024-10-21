@@ -52,7 +52,7 @@ javascript:(function () {
         overlay.style.position = 'fixed';
         overlay.style.top = '10%';
         overlay.style.left = '15%';
-        overlay.style.width = 'min-content';
+        overlay.style.width = 'fit-content';
         overlay.style.backgroundColor = '#C3C3C3';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
@@ -199,7 +199,7 @@ javascript:(function () {
 
         let nameContainer = document.createElement('div');
         nameContainer.style.display = 'flex';
-        nameContainer.style.gap = '1.6rem';
+        nameContainer.style.gap = '1.5rem';
 
         let inputLabel = document.createElement('h2');
         inputLabel.setAttribute('for', 'engineerName');
@@ -352,7 +352,7 @@ javascript:(function () {
         }
         template.style.margin = 0;
         template.style.color = 'black';
-        template.style.fontSize = '1.6rem';
+        template.style.fontSize = '1.5rem';
 
         let tagContainer = document.createElement('div');
         tagContainer.style.display = 'flex';
@@ -367,7 +367,7 @@ javascript:(function () {
             hashTags.textContent = tag;
             hashTags.style.margin = 0;
             hashTags.style.color = 'black';
-            hashTags.style.fontSize = '1.6rem';
+            hashTags.style.fontSize = '1.5rem';
 
             let copyHashtags = document.createElement('button');
             copyHashtags.id = `copy${tag}`;
@@ -489,7 +489,7 @@ javascript:(function () {
             questionLabel.textContent = quashQuestions[question];
             questionLabel.style.margin = 0;
             questionLabel.style.color = 'black';
-            questionLabel.style.fontSize = '1.6rem';
+            questionLabel.style.fontSize = '1.5rem';
 
             checkboxContainer.appendChild(questionCheckbox);
             checkboxContainer.appendChild(questionLabel);
@@ -531,7 +531,7 @@ javascript:(function () {
                         questionLabel.textContent = question;
                         questionLabel.style.margin = 0;
                         questionLabel.style.color = 'black';
-                        questionLabel.style.fontSize = '1.6rem';
+                        questionLabel.style.fontSize = '1.5rem';
 
                         checkboxContainer.appendChild(questionCheckbox);
                         checkboxContainer.appendChild(questionLabel);
