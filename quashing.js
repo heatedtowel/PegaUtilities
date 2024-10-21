@@ -12,7 +12,8 @@ javascript:(function () {
             return;
         }
         document.addEventListener(`keydown`, initTrapFocus);
-        displayRegionSelect();
+        displayInfoContainer();
+        document.getElementById('closeBtn').focus();
     };
 
     function initTrapFocus(e) {
@@ -71,8 +72,10 @@ javascript:(function () {
         header.style.width = '100%';
 
         let closeBtn = document.createElement('button');
+        closeBtn.id = 'closeBtn';
         closeBtn.textContent = 'X';
         closeBtn.setAttribute('aria-label', 'close');
+        closeBtn.autofocus = true;
         closeBtn.style.position = 'absolute';
         closeBtn.style.top = '10px';
         closeBtn.style.right = '10px';
@@ -91,7 +94,7 @@ javascript:(function () {
         return overlay;
     };
 
-    const displayRegionSelect = () => {
+    const displayInfoContainer = () => {
         const regionOptions = ['NCSA', 'EMEA', 'APAC'];
         const featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Cosmos'];
         const currentRegion = getLocalStorage('region');
