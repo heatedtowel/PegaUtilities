@@ -52,8 +52,8 @@ javascript:(function () {
         overlay.style.position = 'fixed';
         overlay.style.top = '10%';
         overlay.style.left = '15%';
-        overlay.style.width = '500px';
-        overlay.style.backgroundColor = '#f0f0f0';
+        overlay.style.width = 'min-content';
+        overlay.style.backgroundColor = '#C3C3C3';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
         overlay.style.flexDirection = 'column';
