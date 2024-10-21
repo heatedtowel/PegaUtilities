@@ -97,8 +97,8 @@ javascript:(function () {
     const displayInfoContainer = () => {
         const regionOptions = ['NCSA', 'EMEA', 'APAC'];
         const featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Cosmos'];
-        const currentRegion = getLocalStorage('region');
-        const currentName = getLocalStorage('name');
+        let currentRegion = getLocalStorage('region');
+        let currentName = getLocalStorage('name');
         const informationOptions = ['Yes', 'No'];
 
         let overlay = createOverlay();
