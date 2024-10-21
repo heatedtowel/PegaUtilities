@@ -239,8 +239,8 @@ javascript:(function () {
                 }
                 setLocalStorage('name', newName);
                 setLocalStorage('region', regionSelection);
-                currentName = newName;
                 currentRegion = regionSelection;
+                currentName = newName;
                 overlay.remove();
                 checkForExistingBookmarklets();
             }
