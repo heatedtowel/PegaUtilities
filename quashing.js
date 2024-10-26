@@ -278,11 +278,14 @@ javascript:(function () {
 
             if (triageSelection === 'Yes') {
                 overlay.remove();
-                return displayTemplate(currentRegion, currentName);
+                displayTemplate(currentRegion, currentName);
+                document.getElementById('closeBtn').focus();
+                return
             }
 
             overlay.remove();
             displayQuestions(currentRegion, currentName, featureSelection);
+            document.getElementById('closeBtn').focus();
         });
 
         btnContainer.appendChild(saveBtn);
@@ -309,6 +312,7 @@ javascript:(function () {
     };
 
     const displayTemplate = (region, name, questionList = null) => {
+        
         const quashTemplate = {
             responseYes:
             `Thank you for reaching out to Pega GCS Support,
@@ -566,6 +570,8 @@ javascript:(function () {
 
             overlay.remove();
             displayTemplate(region, name, questionList);
+            document.getElementById('closeBtn').focus();
+            
         });
 
         overlay.appendChild(title);
