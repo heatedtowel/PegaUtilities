@@ -95,6 +95,9 @@ javascript:(function () {
     };
 
     const displayInfoContainer = () => {
+        const host = document.body;
+        const shadow = host.attachShadow({mode: 'open'});
+
         const regionOptions = ['NCSA', 'EMEA', 'APAC'];
         const featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Cosmos'];
         let currentRegion = getLocalStorage('region');
@@ -102,6 +105,7 @@ javascript:(function () {
         const informationOptions = ['Yes', 'No'];
 
         let overlay = createOverlay();
+        let wrapper = createOverlay();
 
         let title = document.createElement('h1');
         title.textContent = 'Quashing Template Generator';
@@ -292,7 +296,10 @@ javascript:(function () {
         overlay.appendChild(title);
         overlay.appendChild(infoContainer);
         overlay.appendChild(btnContainer);
-        document.body.appendChild(overlay);
+        document.body.appendChild(wrapper);
+        wrapper.appendChild(shadow);
+        shadow.appendChild(overlay);
+
     };
 
     const setLocalStorage = (name, param) => {
