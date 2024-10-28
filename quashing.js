@@ -144,7 +144,7 @@ javascript:(function () {
 
         let regionContainer = document.createElement('div');
         regionContainer.style.display = 'flex';
-        regionContainer.style.gap = '.8rem';
+        regionContainer.style.gap = '1.1rem';
 
         let dropdownLabel = document.createElement('h2');
         dropdownLabel.id = 'regionLabel';
@@ -174,7 +174,7 @@ javascript:(function () {
 
         let featureContainer = document.createElement('div');
         featureContainer.style.display = 'flex';
-        featureContainer.style.gap = '.5rem';
+        featureContainer.style.gap = '.7rem';
 
         let featureLabel = document.createElement('h2');
         featureLabel.id = 'featureLabel';
