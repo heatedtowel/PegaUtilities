@@ -157,7 +157,7 @@ javascript:(function () {
         selectElement.disabled = currentRegion;
         selectElement.required = true;
         selectElement.style.maxHeight = '36px';
-        dropdownLabel.setAttribute('aria-labelledby', 'regionLabel');
+        selectElement.setAttribute('aria-labelledby', 'regionLabel');
 
         
 
@@ -216,7 +216,7 @@ javascript:(function () {
         let triageSelectElement = document.createElement('select');
         triageSelectElement.name = 'informationSelection';
         triageSelectElement.id = 'informationToTriage';
-        featureDropdown.setAttribute('aria-labelledby', 'triageLabel');
+        triageSelectElement.setAttribute('aria-labelledby', 'triageLabel');
 
 
         informationOptions.map(option => {
