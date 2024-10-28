@@ -506,11 +506,14 @@ javascript:(function () {
             questionCheckbox.type = 'checkbox';
             questionCheckbox.style.margin = 0;
             questionCheckbox.style.color = 'black';
+            questionCheckbox.setAttribute('aria-label', `question${question}`)
     
             let questionLabel = document.createElement('label');
             questionLabel.textContent = quashQuestions[question];
             questionLabel.style.margin = 0;
             questionLabel.style.color = 'black';
+            questionCheckbox.setAttribute('aria-labelledby', `question${question}`)
+
 
             checkboxContainer.appendChild(questionCheckbox);
             checkboxContainer.appendChild(questionLabel);
