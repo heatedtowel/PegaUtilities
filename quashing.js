@@ -502,17 +502,16 @@ javascript:(function () {
             checkboxContainer.style.justifyContent = 'center';
 
             let questionCheckbox = document.createElement('input');
-            questionCheckbox.id  = `question${question}`;
             questionCheckbox.type = 'checkbox';
             questionCheckbox.style.margin = 0;
             questionCheckbox.style.color = 'black';
-            questionCheckbox.setAttribute('aria-label', `question${question}`);
+            questionCheckbox.setAttribute('aria-label', `${quashQuestions[question]}`);
     
             let questionLabel = document.createElement('label');
+            questionLabel.id  = `question${question}`;
             questionLabel.textContent = quashQuestions[question];
             questionLabel.style.margin = 0;
             questionLabel.style.color = 'black';
-            questionCheckbox.setAttribute('aria-labelledby', `question${question}`);
 
 
             checkboxContainer.appendChild(questionCheckbox);
