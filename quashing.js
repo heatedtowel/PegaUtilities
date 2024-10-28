@@ -65,6 +65,7 @@ javascript:(function () {
         overlay.setAttribute('tabIndex', '-1');
         overlay.setAttribute('role', 'dialog');
         overlay.setAttribute('aria-modal', 'true');
+        overlay.setAttribute('aria-labelledby', 'modalTitle');
 
         let header = document.createElement('div');
         header.style.display = 'flex';
@@ -125,6 +126,7 @@ javascript:(function () {
         let overlay = createOverlay();
 
         let title = document.createElement('h1');
+        title.id = 'modalTitle';
         title.textContent = 'Quashing Template Generator';
         title.style.margin = 0;
         title.style.color = 'black';
@@ -362,6 +364,7 @@ javascript:(function () {
         responseContainer.style.width = 'fit-content';
 
         let title = document.createElement('h1');
+        title.id = 'modalTitle';
         title.textContent = 'Quashing Template';
         title.style.margin = 0;
         title.style.color = 'black';
@@ -476,6 +479,7 @@ javascript:(function () {
         let overlay = createOverlay();
 
         let title = document.createElement('h1');
+        title.id = 'modalTitle';
         title.textContent = 'Please Select Questions';
         title.style.margin = 0;
         title.style.color = 'black';
