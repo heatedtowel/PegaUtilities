@@ -48,7 +48,6 @@ javascript:(function () {
         let overlay = document.createElement('div');
         overlay.id = 'bookMarkletModal';
         overlay.className = 'bookMarklet';
-        overlay.setAttribute('tabIndex', '-1');
         overlay.style.position = 'fixed';
         overlay.style.top = '10%';
         overlay.style.left = '15%';
@@ -62,6 +61,8 @@ javascript:(function () {
         overlay.style.flexWrap = 'wrap';
         overlay.style.borderRadius  = '8px';
         overlay.style.padding  = '1rem';
+        overlay.style.zIndex = '999';
+        overlay.setAttribute('tabIndex', '-1');
         overlay.setAttribute('role', 'dialog');
         overlay.setAttribute('aria-modal', 'true');
 
@@ -71,17 +72,13 @@ javascript:(function () {
         header.style.justifyContent = 'flex-end';
         header.style.width = '100%';
 
-        let closeBtn = document.createElement('button');
+        let closeBtn = createButton('X', 'lightGrey', 'Black');
         closeBtn.id = 'closeBtn';
-        closeBtn.textContent = 'X';
-        closeBtn.setAttribute('aria-label', 'close');
         closeBtn.autofocus = true;
         closeBtn.style.position = 'absolute';
         closeBtn.style.top = '10px';
         closeBtn.style.right = '10px';
-        closeBtn.style.cursor = 'pointer';
-        closeBtn.style.backgroundColor = 'lightGrey';
-        closeBtn.style.borderRadius = '1rem';
+        closeBtn.setAttribute('aria-label', 'Close Button');
 
         closeBtn.addEventListener('click', () => {
             document.removeEventListener(`keydown`, initTrapFocus);
@@ -92,6 +89,30 @@ javascript:(function () {
         overlay.appendChild(header);
 
         return overlay;
+    };
+
+    const createButton = (text, backgroundColor = 'lightGrey', textColor = 'black') => {
+        let button = document.createElement('button');
+        button.textContent = text;
+        button.style.cursor = 'pointer';
+        button.style.backgroundColor = backgroundColor;
+        button.style.color = textColor;
+        button.style.borderRadius = '1rem';
+
+        return button;
+    };
+
+    const setLocalStorage = (name, param) => {
+        localStorage.setItem(name, param);
+    };
+
+    const getLocalStorage = (key) => {
+        const localItem = localStorage.getItem(key);
+
+        if (!localItem) {
+            return false;
+        }
+        return localItem;
     };
 
     const displayInfoContainer = () => {
@@ -126,6 +147,7 @@ javascript:(function () {
         regionContainer.style.gap = '.8rem';
 
         let dropdownLabel = document.createElement('h2');
+        dropdownLabel.id = 'regionLabel';
         dropdownLabel.setAttribute('for', 'regionSelect');
         dropdownLabel.textContent = 'Region';
 
@@ -134,6 +156,10 @@ javascript:(function () {
         selectElement.id = 'regionSelect';
         selectElement.disabled = currentRegion;
         selectElement.required = true;
+        selectElement.style.maxHeight = '36px';
+        dropdownLabel.setAttribute('aria-labelledby', 'regionLabel');
+
+        
 
         regionOptions.map(option => {
             let newOption = document.createElement('option');
@@ -151,12 +177,16 @@ javascript:(function () {
         featureContainer.style.gap = '.5rem';
 
         let featureLabel = document.createElement('h2');
+        featureLabel.id = 'featureLabel';
         featureLabel.setAttribute('for', 'featureSelect');
         featureLabel.textContent = 'Feature';
 
         let featureDropdown = document.createElement('select');
         featureDropdown.name = 'features';
         featureDropdown.id = 'featureSelect';
+        featureDropdown.style.maxHeight = '36px';
+        featureDropdown.setAttribute('aria-labelledby', 'featureSelect');
+
 
         featureOptions.map(option => {
             let newOption = document.createElement('option');
@@ -178,6 +208,7 @@ javascript:(function () {
         triageInfoContainer.style.marginBottom = '1rem';
 
         let triageDropdownLabel = document.createElement('h2');
+        triageDropdownLabel.id = 'triageLabel';
         triageDropdownLabel.setAttribute('for', 'informationToTriage');
         triageDropdownLabel.textContent = 'Did the client provide enough information to triage?';
         triageDropdownLabel.style.color = 'black';
@@ -185,6 +216,8 @@ javascript:(function () {
         let triageSelectElement = document.createElement('select');
         triageSelectElement.name = 'informationSelection';
         triageSelectElement.id = 'informationToTriage';
+        featureDropdown.setAttribute('aria-labelledby', 'triageLabel');
+
 
         informationOptions.map(option => {
             let newOption = document.createElement('option');
@@ -210,7 +243,7 @@ javascript:(function () {
         nameInput.disabled = currentName;
         nameInput.type = 'text';
         nameInput.placeholder = !currentName ? 'Enter Name' : currentName;
-        nameInput.required = true;
+        nameInput.style.maxHeight = '36px';
 
         nameContainer.appendChild(inputLabel);
         nameContainer.appendChild(nameInput);
@@ -295,20 +328,7 @@ javascript:(function () {
         overlay.appendChild(title);
         overlay.appendChild(infoContainer);
         overlay.appendChild(btnContainer);
-        document.body.appendChild(overlay);
-    };
-
-    const setLocalStorage = (name, param) => {
-        localStorage.setItem(name, param);
-    };
-
-    const getLocalStorage = (key) => {
-        const localItem = localStorage.getItem(key);
-
-        if (!localItem) {
-            return false;
-        }
-        return localItem;
+        document.body.prepend(overlay);
     };
 
     const displayTemplate = (region, name, questionList = null) => {
@@ -414,7 +434,7 @@ javascript:(function () {
         responseContainer.appendChild(copyResponse);
         overlay.appendChild(responseContainer);
         generateTags();
-        document.body.appendChild(overlay);
+        document.body.prepend(overlay);
     };
 
     const displayQuestions = (region, name, featureSelection) => {
@@ -580,7 +600,7 @@ javascript:(function () {
         featureSelection === 'General' ? null : overlay.appendChild(featureQuestionsTitle);
         overlay.appendChild(featureContainer);
         overlay.appendChild(nextButton);
-        document.body.appendChild(overlay);
+        document.body.prepend(overlay);
     };
 
 checkForExistingBookmarklets();
