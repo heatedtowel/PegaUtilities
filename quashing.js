@@ -185,7 +185,7 @@ javascript:(function () {
         featureDropdown.name = 'features';
         featureDropdown.id = 'featureSelect';
         featureDropdown.style.maxHeight = '36px';
-        featureDropdown.setAttribute('aria-labelledby', 'featureSelect');
+        featureDropdown.setAttribute('aria-labelledby', 'featureLabel');
 
 
         featureOptions.map(option => {
