@@ -506,6 +506,7 @@ javascript:(function () {
             checkboxContainer.style.justifyContent = 'center';
 
             let questionCheckbox = document.createElement('input');
+            questionCheckbox.id = `checkbox-question${question}`;
             questionCheckbox.type = 'checkbox';
             questionCheckbox.style.margin = 0;
             questionCheckbox.style.color = 'black';
@@ -578,7 +579,7 @@ javascript:(function () {
         nextButton.addEventListener('click', () => {
             const questionList = [];
             for (const question in quashQuestions) {
-                let current = document.getElementById(`question${question}`);
+                let current = document.getElementById(`checkbox-question${question}`);
 
                 if (current.checked) {
                     questionList.push(quashQuestions[question]);
