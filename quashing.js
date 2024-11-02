@@ -48,7 +48,6 @@ javascript:(function () {
         let overlay = document.createElement('div');
         overlay.id = 'bookMarkletModal';
         overlay.className = 'bookMarklet';
-        overlay.setAttribute('tabIndex', '-1');
         overlay.style.position = 'fixed';
         overlay.style.top = '10%';
         overlay.style.left = '15%';
@@ -62,8 +61,11 @@ javascript:(function () {
         overlay.style.flexWrap = 'wrap';
         overlay.style.borderRadius  = '8px';
         overlay.style.padding  = '1rem';
+        overlay.style.zIndex = '999';
+        overlay.setAttribute('tabIndex', '-1');
         overlay.setAttribute('role', 'dialog');
         overlay.setAttribute('aria-modal', 'true');
+        overlay.setAttribute('aria-labelledby', 'modalTitle');
 
         let header = document.createElement('div');
         header.style.display = 'flex';
@@ -71,17 +73,13 @@ javascript:(function () {
         header.style.justifyContent = 'flex-end';
         header.style.width = '100%';
 
-        let closeBtn = document.createElement('button');
+        let closeBtn = createButton('X', 'lightGrey', 'Black');
         closeBtn.id = 'closeBtn';
-        closeBtn.textContent = 'X';
-        closeBtn.setAttribute('aria-label', 'close');
         closeBtn.autofocus = true;
         closeBtn.style.position = 'absolute';
         closeBtn.style.top = '10px';
         closeBtn.style.right = '10px';
-        closeBtn.style.cursor = 'pointer';
-        closeBtn.style.backgroundColor = 'lightGrey';
-        closeBtn.style.borderRadius = '1rem';
+        closeBtn.setAttribute('aria-label', 'Close Button');
 
         closeBtn.addEventListener('click', () => {
             document.removeEventListener(`keydown`, initTrapFocus);
@@ -94,6 +92,30 @@ javascript:(function () {
         return overlay;
     };
 
+    const createButton = (text, backgroundColor = 'lightGrey', textColor = 'black') => {
+        let button = document.createElement('button');
+        button.textContent = text;
+        button.style.cursor = 'pointer';
+        button.style.backgroundColor = backgroundColor;
+        button.style.color = textColor;
+        button.style.borderRadius = '1rem';
+
+        return button;
+    };
+
+    const setLocalStorage = (name, param) => {
+        localStorage.setItem(name, param);
+    };
+
+    const getLocalStorage = (key) => {
+        const localItem = localStorage.getItem(key);
+
+        if (!localItem) {
+            return false;
+        }
+        return localItem;
+    };
+
     const displayInfoContainer = () => {
         const regionOptions = ['NCSA', 'EMEA', 'APAC'];
         const featureOptions = ['General', 'Accessibility', 'Reporting', 'Tables', 'Cosmos'];
@@ -104,6 +126,7 @@ javascript:(function () {
         let overlay = createOverlay();
 
         let title = document.createElement('h1');
+        title.id = 'modalTitle';
         title.textContent = 'Quashing Template Generator';
         title.style.margin = 0;
         title.style.color = 'black';
@@ -123,9 +146,10 @@ javascript:(function () {
 
         let regionContainer = document.createElement('div');
         regionContainer.style.display = 'flex';
-        regionContainer.style.gap = '.8rem';
+        regionContainer.style.gap = '1.1rem';
 
         let dropdownLabel = document.createElement('h2');
+        dropdownLabel.id = 'regionLabel';
         dropdownLabel.setAttribute('for', 'regionSelect');
         dropdownLabel.textContent = 'Region';
 
@@ -134,6 +158,10 @@ javascript:(function () {
         selectElement.id = 'regionSelect';
         selectElement.disabled = currentRegion;
         selectElement.required = true;
+        selectElement.style.maxHeight = '36px';
+        selectElement.setAttribute('aria-labelledby', 'regionLabel');
+
+        
 
         regionOptions.map(option => {
             let newOption = document.createElement('option');
@@ -148,15 +176,19 @@ javascript:(function () {
 
         let featureContainer = document.createElement('div');
         featureContainer.style.display = 'flex';
-        featureContainer.style.gap = '.5rem';
+        featureContainer.style.gap = '.7rem';
 
         let featureLabel = document.createElement('h2');
+        featureLabel.id = 'featureLabel';
         featureLabel.setAttribute('for', 'featureSelect');
         featureLabel.textContent = 'Feature';
 
         let featureDropdown = document.createElement('select');
         featureDropdown.name = 'features';
         featureDropdown.id = 'featureSelect';
+        featureDropdown.style.maxHeight = '36px';
+        featureDropdown.setAttribute('aria-labelledby', 'featureLabel');
+
 
         featureOptions.map(option => {
             let newOption = document.createElement('option');
@@ -178,6 +210,7 @@ javascript:(function () {
         triageInfoContainer.style.marginBottom = '1rem';
 
         let triageDropdownLabel = document.createElement('h2');
+        triageDropdownLabel.id = 'triageLabel';
         triageDropdownLabel.setAttribute('for', 'informationToTriage');
         triageDropdownLabel.textContent = 'Did the client provide enough information to triage?';
         triageDropdownLabel.style.color = 'black';
@@ -185,6 +218,8 @@ javascript:(function () {
         let triageSelectElement = document.createElement('select');
         triageSelectElement.name = 'informationSelection';
         triageSelectElement.id = 'informationToTriage';
+        triageSelectElement.setAttribute('aria-labelledby', 'triageLabel');
+
 
         informationOptions.map(option => {
             let newOption = document.createElement('option');
@@ -210,7 +245,7 @@ javascript:(function () {
         nameInput.disabled = currentName;
         nameInput.type = 'text';
         nameInput.placeholder = !currentName ? 'Enter Name' : currentName;
-        nameInput.required = true;
+        nameInput.style.maxHeight = '36px';
 
         nameContainer.appendChild(inputLabel);
         nameContainer.appendChild(nameInput);
@@ -295,20 +330,7 @@ javascript:(function () {
         overlay.appendChild(title);
         overlay.appendChild(infoContainer);
         overlay.appendChild(btnContainer);
-        document.body.appendChild(overlay);
-    };
-
-    const setLocalStorage = (name, param) => {
-        localStorage.setItem(name, param);
-    };
-
-    const getLocalStorage = (key) => {
-        const localItem = localStorage.getItem(key);
-
-        if (!localItem) {
-            return false;
-        }
-        return localItem;
+        document.body.prepend(overlay);
     };
 
     const displayTemplate = (region, name, questionList = null) => {
@@ -342,6 +364,7 @@ javascript:(function () {
         responseContainer.style.width = 'fit-content';
 
         let title = document.createElement('h1');
+        title.id = 'modalTitle';
         title.textContent = 'Quashing Template';
         title.style.margin = 0;
         title.style.color = 'black';
@@ -414,7 +437,7 @@ javascript:(function () {
         responseContainer.appendChild(copyResponse);
         overlay.appendChild(responseContainer);
         generateTags();
-        document.body.appendChild(overlay);
+        document.body.prepend(overlay);
     };
 
     const displayQuestions = (region, name, featureSelection) => {
@@ -456,6 +479,7 @@ javascript:(function () {
         let overlay = createOverlay();
 
         let title = document.createElement('h1');
+        title.id = 'modalTitle';
         title.textContent = 'Please Select Questions';
         title.style.margin = 0;
         title.style.color = 'black';
@@ -482,15 +506,18 @@ javascript:(function () {
             checkboxContainer.style.justifyContent = 'center';
 
             let questionCheckbox = document.createElement('input');
-            questionCheckbox.id  = `question${question}`;
+            questionCheckbox.id = `checkbox-question${question}`;
             questionCheckbox.type = 'checkbox';
             questionCheckbox.style.margin = 0;
             questionCheckbox.style.color = 'black';
+            questionCheckbox.setAttribute('aria-label', `${quashQuestions[question]}`);
     
             let questionLabel = document.createElement('label');
+            questionLabel.id  = `question${question}`;
             questionLabel.textContent = quashQuestions[question];
             questionLabel.style.margin = 0;
             questionLabel.style.color = 'black';
+
 
             checkboxContainer.appendChild(questionCheckbox);
             checkboxContainer.appendChild(questionLabel);
@@ -552,7 +579,7 @@ javascript:(function () {
         nextButton.addEventListener('click', () => {
             const questionList = [];
             for (const question in quashQuestions) {
-                let current = document.getElementById(`question${question}`);
+                let current = document.getElementById(`checkbox-question${question}`);
 
                 if (current.checked) {
                     questionList.push(quashQuestions[question]);
@@ -580,7 +607,7 @@ javascript:(function () {
         featureSelection === 'General' ? null : overlay.appendChild(featureQuestionsTitle);
         overlay.appendChild(featureContainer);
         overlay.appendChild(nextButton);
-        document.body.appendChild(overlay);
+        document.body.prepend(overlay);
     };
 
 checkForExistingBookmarklets();
