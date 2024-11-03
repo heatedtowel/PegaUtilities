@@ -489,21 +489,23 @@ javascript:(function () {
 
         let overlay = createOverlay();
 
-        let title = document.createElement('h1');
+        let title = document.createElement('h2');
         title.id = 'modalTitle';
         title.textContent = 'Please Select Questions';
         title.style.margin = 0;
+        title.style.fontSize = '30px';
         title.style.color = 'black';
 
         let questionContainer = document.createElement('div');
         questionContainer.id = 'questions';
         questionContainer.style.display = 'flex';
-        questionContainer.style.gap = '5px';
         questionContainer.style.flexDirection = 'column';
+        questionContainer.style.gap = '5px';
         questionContainer.style.alignItems = 'flex-start';
         questionContainer.style.justifyContent = 'center';
+        questionContainer.style.marginBottom = '10px';
 
-        let generalQuestionsTitle = document.createElement('h2');
+        let generalQuestionsTitle = document.createElement('h3');
         generalQuestionsTitle.textContent = 'General Questions';
         generalQuestionsTitle.style.placeSelf = 'flex-start';
         generalQuestionsTitle.style.margin = 0;
@@ -544,7 +546,7 @@ javascript:(function () {
         featureContainer.style.justifyContent = 'center';
         featureContainer.style.width = '100%';
         
-        let featureQuestionsTitle = document.createElement('h2');
+        let featureQuestionsTitle = document.createElement('h3');
         featureQuestionsTitle.textContent = `${featureSelection} Specific Questions`;
         featureQuestionsTitle.style.placeSelf = 'flex-start';
         featureQuestionsTitle.style.margin = 0;
