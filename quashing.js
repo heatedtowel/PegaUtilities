@@ -51,7 +51,8 @@ javascript:(function () {
         overlay.style.position = 'fixed';
         overlay.style.top = '10%';
         overlay.style.left = '15%';
-        overlay.style.width = '500px';
+        overlay.style.minWidth = '500px';
+        overlay.style.maxWidth = '600px';
         overlay.style.backgroundColor = '#C3C3C3';
         overlay.style.display = 'flex';
         overlay.style.gap = '5px';
@@ -125,10 +126,11 @@ javascript:(function () {
 
         let overlay = createOverlay();
 
-        let title = document.createElement('h1');
+        let title = document.createElement('h2');
         title.id = 'modalTitle';
         title.textContent = 'Quashing Template Generator';
         title.style.margin = 0;
+        title.style.fontSize = '30px';
         title.style.color = 'black';
 
         let btnContainer = document.createElement('div');
@@ -148,10 +150,11 @@ javascript:(function () {
         regionContainer.style.display = 'flex';
         regionContainer.style.gap = '1.1rem';
 
-        let dropdownLabel = document.createElement('h2');
+        let dropdownLabel = document.createElement('h3');
         dropdownLabel.id = 'regionLabel';
         dropdownLabel.setAttribute('for', 'regionSelect');
         dropdownLabel.textContent = 'Region';
+        dropdownLabel.style.color = 'Black';
 
         let selectElement = document.createElement('select');
         selectElement.name = 'regions';
@@ -178,10 +181,11 @@ javascript:(function () {
         featureContainer.style.display = 'flex';
         featureContainer.style.gap = '.7rem';
 
-        let featureLabel = document.createElement('h2');
+        let featureLabel = document.createElement('h3');
         featureLabel.id = 'featureLabel';
         featureLabel.setAttribute('for', 'featureSelect');
         featureLabel.textContent = 'Feature';
+        featureLabel.style.color = 'Black';
 
         let featureDropdown = document.createElement('select');
         featureDropdown.name = 'features';
@@ -209,7 +213,7 @@ javascript:(function () {
         triageInfoContainer.style.justifyContent = 'center';
         triageInfoContainer.style.marginBottom = '1rem';
 
-        let triageDropdownLabel = document.createElement('h2');
+        let triageDropdownLabel = document.createElement('h3');
         triageDropdownLabel.id = 'triageLabel';
         triageDropdownLabel.setAttribute('for', 'informationToTriage');
         triageDropdownLabel.textContent = 'Did the client provide enough information to triage?';
@@ -236,9 +240,11 @@ javascript:(function () {
         nameContainer.style.display = 'flex';
         nameContainer.style.gap = '1.5rem';
 
-        let inputLabel = document.createElement('h2');
+        let inputLabel = document.createElement('h3');
         inputLabel.setAttribute('for', 'engineerName');
         inputLabel.textContent = 'Name';
+        inputLabel.style.color = 'Black';
+
 
         let nameInput = document.createElement('input');
         nameInput.id = 'engineerName';
@@ -263,6 +269,7 @@ javascript:(function () {
         saveBtn.style.borderRadius = '1rem';
         saveBtn.style.backgroundColor = 'lightGrey';
         saveBtn.style.cursor = 'pointer';
+        saveBtn.style.color = 'Black';
 
         saveBtn.addEventListener('click', () => {
             let regionSelection = document.getElementById('regionSelect').value;
@@ -288,6 +295,7 @@ javascript:(function () {
         resetBtn.style.borderRadius = '1rem';
         resetBtn.style.backgroundColor = 'lightGrey';
         resetBtn.style.cursor = 'pointer';
+        resetBtn.style.color = 'Black';
 
         resetBtn.addEventListener('click' , () => {
             localStorage.clear();
@@ -302,6 +310,7 @@ javascript:(function () {
         nextButton.style.borderRadius = '1rem';
         nextButton.style.backgroundColor = 'lightGrey';
         nextButton.style.cursor = 'pointer';
+        nextButton.style.color = 'Black';
 
         nextButton.addEventListener('click' , () => {
             let featureSelection = document.getElementById('featureSelect').value;
@@ -403,6 +412,7 @@ javascript:(function () {
             copyHashtags.style.padding = '2px 8px';
             copyHashtags.style.borderRadius = '1rem';
             copyHashtags.style.backgroundColor = 'lightGrey';
+            copyHashtags.style.color = 'Black';
             copyHashtags.style.cursor = 'pointer';
     
             copyHashtags.addEventListener('click', (e) => {
@@ -423,6 +433,7 @@ javascript:(function () {
         copyResponse.style.padding = '2px 8px';
         copyResponse.style.borderRadius = '1rem';
         copyResponse.style.backgroundColor = 'lightGrey';
+        copyResponse.style.color = 'Black';
         copyResponse.style.cursor = 'pointer';
 
         copyResponse.addEventListener('click', (e) => {
@@ -574,6 +585,7 @@ javascript:(function () {
         nextButton.style.padding = '2px 8px';
         nextButton.style.borderRadius = '1rem';
         nextButton.style.backgroundColor = 'lightGrey';
+        nextButton.style.color = 'Black';
         nextButton.style.cursor = 'pointer';
 
         nextButton.addEventListener('click', () => {
