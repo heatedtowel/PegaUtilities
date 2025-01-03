@@ -438,7 +438,6 @@ let Quashing_Component = {
         // Get current Open Cases
         var iframes = globalThis.document.getElementsByTagName("iframe");
         for(var i = 0; i < iframes.length; i++) {
-            console.log(iframes[i].contentDocument.querySelector("body").ariaLabel);
             if (iframes[i].contentDocument.querySelector("body").ariaLabel) {
                 let caseID = iframes[i].contentDocument.querySelector("body").ariaLabel.split(" ")[1];
                 this.addCaseToAvailableCases(caseID)
@@ -620,7 +619,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
                     [QUASHING__F__CONSTELLATION_UI__ACCESSIBILITY]: [
                         { selected: false, text: 'What screen reader and version are you testing with?' },
                         { selected: false, text: 'What navigation method is being used to test?' },
-                        { selected: false, text: 'Is there a specific WCAG success criteria being broken?' }
+                        { selected: false, text: 'Is there a specific WCAG success criteria being broken?' },
+                        { selected: false, text: 'Can you provide a video of the issue in detail?' }
                     ],
                     [QUASHING__F__CONSTELLATION_UI__CONSTELLATION_DX_COMPONENTS]: [
                     ],
@@ -649,7 +649,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
                     [QUASHING__F__USER_INTERFACE_UI__ACCESSIBILITY]: [
                         { selected: false, text: 'What screen reader and version are you testing with?' },
                         { selected: false, text: 'What navigation method is being used to test?' },
-                        { selected: false, text: 'Is there a specific WCAG success criteria being broken?' }
+                        { selected: false, text: 'Is there a specific WCAG success criteria being broken?' },
+                        { selected: false, text: 'Can you provide a video of the issue in detail?' }
                     ],
                     [QUASHING__F__USER_INTERFACE_UI__TABLEGRID_LAYOUT]: [
                         { selected: false, text: 'Is the table optimized or non-optimized?' }
