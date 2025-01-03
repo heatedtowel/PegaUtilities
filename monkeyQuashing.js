@@ -1,19 +1,25 @@
 // ==UserScript==
 // @name         vToolBar
 // @description  ToolBar based in vue.js for streamlining housing various tools to streamline work in the GCS support portal
+// @sandbox      DOM
 // @author       Dallin Andersen
 // @match        https://pegasupport.pega.com/prweb/PRAuth/app/support/*
+// @match        http://127.0.0.1:5500/
+// @version      1.0.6
+// @downloadURL  https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
+// @updateURL    https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // ==/UserScript==
 
 /**
-TODO - https://stackoverflow.com/questions/72545851/how-to-make-userscript-auto-update-from-private-domain-github
-*/
+For live development outside of the support portal you can download the extension 'Live Server' for Visual Studio Code. 
+The default port is 5500. if this is not the case please use 'liveServer.settings.port' by clicking on 'settings' 
+in the live server via the extensions list, then 'edit settings in .json' Once setup, enable live server and the toobar 
+will be enabled. 
 
-/**
 For icons we can get the svg downloads directly from fontawesome:
 https://fontawesome.com/v6/search?o=r&m=free
 
-This tool is leverage vue.js:
+This tool is leveraging vue.js:
 https://vuejs.org/
 It can be used as a standalone script:
 https://vuejs.org/guide/extras/ways-of-using-vue.html#standalone-script
@@ -33,6 +39,31 @@ let stylesText = `
 
 #vueroot p, #vueroot div, #vueroot li, #vueroot span {
     color: white;
+}
+
+#vueroot .vmoreInfoHeaderWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+#vueroot .vmoreInfoBtn {
+    background: white;
+    padding: 2px;
+    border-radius: 8px;
+}
+
+#vueroot .vmoreInfoBtn:hover {
+    cursor: pointer;
+    fill: var(--main-accent-color);
+    background-color: white;
+
+}
+
+#vueroot .vmoreInfoBtn > svg {
+    height: 15px;
+    width: 15px;
 }
 
 #vueroot .vmenu {
@@ -106,6 +137,10 @@ let stylesText = `
 
 #vueroot .vcontentpane {
 
+}
+
+#vueroot .vcontentpaneFooter {
+    margin-bottom: 5px;
 }
 
 #vueroot .vinfospan {
@@ -438,7 +473,6 @@ let Quashing_Component = {
         // Get current Open Cases
         var iframes = globalThis.document.getElementsByTagName("iframe");
         for(var i = 0; i < iframes.length; i++) {
-            console.log(iframes[i].contentDocument.querySelector("body").ariaLabel);
             if (iframes[i].contentDocument.querySelector("body").ariaLabel) {
                 let caseID = iframes[i].contentDocument.querySelector("body").ariaLabel.split(" ")[1];
                 this.addCaseToAvailableCases(caseID)
@@ -620,7 +654,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
                     [QUASHING__F__CONSTELLATION_UI__ACCESSIBILITY]: [
                         { selected: false, text: 'What screen reader and version are you testing with?' },
                         { selected: false, text: 'What navigation method is being used to test?' },
-                        { selected: false, text: 'Is there a specific WCAG success criteria being broken?' }
+                        { selected: false, text: 'Is there a specific WCAG success criteria being broken?' },
+                        { selected: false, text: 'Can you provide a video of the issue in detail?' }
                     ],
                     [QUASHING__F__CONSTELLATION_UI__CONSTELLATION_DX_COMPONENTS]: [
                     ],
@@ -649,7 +684,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
                     [QUASHING__F__USER_INTERFACE_UI__ACCESSIBILITY]: [
                         { selected: false, text: 'What screen reader and version are you testing with?' },
                         { selected: false, text: 'What navigation method is being used to test?' },
-                        { selected: false, text: 'Is there a specific WCAG success criteria being broken?' }
+                        { selected: false, text: 'Is there a specific WCAG success criteria being broken?' },
+                        { selected: false, text: 'Can you provide a video of the issue in detail?' }
                     ],
                     [QUASHING__F__USER_INTERFACE_UI__TABLEGRID_LAYOUT]: [
                         { selected: false, text: 'Is the table optimized or non-optimized?' }
@@ -659,7 +695,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             settings: {
                 caseToQuash: '',
                 availableCases: [],
-                explainCasesDropdown: false
+                explainCasesDropdown: false,
+                quashingHelp: true
             },
             error: ''
         }
@@ -708,7 +745,12 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             navigator.clipboard.writeText(this.needInfoMessage)
         },
         copyToClipboard(valueToCopy) {
-            navigator.clipboard.writeText(valueToCopy)
+            navigator.clipboard.writeText(valueToCopy);
+        },
+        toggleQuashHelp() {
+            if (this.settings.quashingHelp === true || this.settings.quashingHelp === false) {
+                this.settings.quashingHelp = !this.settings.quashingHelp;
+            }
         }
     },
     template: `
@@ -781,17 +823,28 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
     <p>Note that this process can also be done through the Case Transfers Webex Space.</p>
   </div>
   <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__ACQUIRE_INFORMATION}'">
-    <h4>${QUASHING__ACQUIRE_INFORMATION}</h4>
-    <p>If the ticket does belong to your tribes queue:</p>
-    <ol>
-      <li>Ask the client for the necessary information (Use the template tool below to assist with this)</li>
-      <li>Start the “Review case (Triage)” assignment</li>
-      <li>Complete the quashing assignment, transferring the case to the work queue "GCS-User and Product Experience"</li>
-      <li>Add the quashed tag to the ticket <span class="vcopytag" v-on:click="copyToClipboard('#uxpxquashed')" >#uxpxquashed</span></li>
-    </ol>
-    <input type="checkbox" v-model="acquireInfo.enoughInfoPresent"></input><label>Enough Information In Ticket</label><br />
+    <div class='vmoreInfoHeaderWrapper'>
+        <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+            <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+        </button>
+        <h4>${QUASHING__ACQUIRE_INFORMATION}</h4>
+    </div>
+    <div v-if="settings.quashingHelp == true">
+        <p>If the ticket does belong to your tribes queue:</p>
+        <ol>
+            <li>Ask the client for the necessary information (Use the template tool below to assist with this)</li>
+            <li>Start the “Review case (Triage)” assignment</li>
+            <li>Complete the quashing assignment, transferring the case to the work queue "GCS-User and Product Experience"</li>
+            <li>Add the quashed tag to the ticket</li>
+        </ol>
+    </div>
+    <div class='vcontentpaneFooter'>
+        <span class="vcopytag" @click="copyToClipboard('#uxpxquashed')">#uxpxquashed</span>
+        <input type="checkbox" v-model="acquireInfo.enoughInfoPresent"></input><label>Enough Information In Ticket</label><br />
+    </div>
     <div class="vcopytext" v-on:click="copyBaseToClipboard" v-if="acquireInfo.enoughInfoPresent">
-      <span>{{ enoughInfoPresentMessage }}</span>
+        <span>{{ enoughInfoPresentMessage }}</span>
     </div>
     <div class="verror" v-if="error != ''">{{ error }}</div>
     <div v-if="!acquireInfo.enoughInfoPresent">
