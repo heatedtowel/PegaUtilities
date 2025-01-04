@@ -3,7 +3,7 @@
 // @description  ToolBar based in vue.js for streamlining housing various tools to streamline work in the GCS support portal
 // @author       Dallin Andersen
 // @match        https://pegasupport.pega.com/prweb/PRAuth/app/support/*
-// @version      1.0.4
+// @version      1.0.5
 // @downloadURL  https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // @updateURL    https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // ==/UserScript==
