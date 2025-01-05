@@ -246,8 +246,6 @@ let stylesText = `
 }
 
 #vueroot .voverflowPane {
-    max-height: 330px;
-    overflow-y: scroll;
 }
 
 #vueroot .vtabPane {
