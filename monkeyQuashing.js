@@ -11,10 +11,10 @@
 // ==/UserScript==
 
 /**
-For live development outside of the support portal you can download the extension 'Live Server' for Visual Studio Code. 
-The default port is 5500. if this is not the case please use 'liveServer.settings.port' by clicking on 'settings' 
-in the live server via the extensions list, then 'edit settings in .json' Once setup, enable live server and the toobar 
-will be enabled. 
+For live development outside of the support portal you can download the extension 'Live Server' for Visual Studio Code.
+The default port is 5500. if this is not the case please use 'liveServer.settings.port' by clicking on 'settings'
+in the live server via the extensions list, then 'edit settings in .json' Once setup, enable live server and the toobar
+will be enabled.
 
 For icons we can get the svg downloads directly from fontawesome:
 https://fontawesome.com/v6/search?o=r&m=free
@@ -50,7 +50,7 @@ let stylesText = `
 
 #vueroot .vmoreInfoBtn {
     background: white;
-    padding: 0;
+    padding: 0 2px;
     margin: 0;
     border-radius: 8px;
 }
@@ -63,8 +63,8 @@ let stylesText = `
 }
 
 #vueroot .vmoreInfoBtn > svg {
-    height: 15px;
-    width: 15px;
+    height: 10px;
+    width: 10px;
 }
 
 #vueroot .vmenu {
