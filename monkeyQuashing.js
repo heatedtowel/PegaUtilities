@@ -76,6 +76,7 @@ let stylesText = `
 
 #vueroot .vengineerRegion {
     width: 150px;
+    height: 25px;
     margin-top: 2px;
 }
 
