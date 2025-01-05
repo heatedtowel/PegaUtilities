@@ -50,7 +50,8 @@ let stylesText = `
 
 #vueroot .vmoreInfoBtn {
     background: white;
-    padding: 2px;
+    padding: 0;
+    margin: 0;
     border-radius: 8px;
 }
 
