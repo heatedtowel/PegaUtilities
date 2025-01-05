@@ -116,7 +116,7 @@ let stylesText = `
 
 #vueroot .vmoreInfoBtn > svg {
     height: 10px;
-    width: 10px;
+    width: 15px;
 }
 
 #vueroot .vmenu {
