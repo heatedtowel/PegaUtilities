@@ -75,6 +75,10 @@ let stylesText = `
     letter-spacing: .2px;
 }
 
+#vueroot .vtoolHeader > h2 {
+    color:  white;
+}
+
 #vueroot p, #vueroot div, #vueroot li, #vueroot span {
     color: white;
 }
@@ -151,6 +155,8 @@ let stylesText = `
 
 #vueroot .vcontent {
     position: absolute;
+    max-height: calc(100vh - 70px);
+    overflow-y: scroll;
     bottom: 52px;
     right: 12px;
     width: 375px;
@@ -176,7 +182,7 @@ let stylesText = `
 }
 
 #vueroot .vcontent label {
-    margin-right: 5px;
+    margin: 0 5px;
 }
 
 #vueroot .vcontentpane {
@@ -195,15 +201,22 @@ let stylesText = `
 }
 
 #vueroot .vinfospan {
+    position: relative;
     width: 16px;
-    display: block;
-    float: left;
-    margin-right: 0px;
+    display: inline-block;
     fill: white;
 }
 
-#vueroot .vinfospan:hover {
-    cursor: help;
+#vueroot .vtooltipText {
+  position: absolute;
+  right: 15px;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  z-index: 1;
 }
 
 #vueroot .vcopytext {
@@ -413,7 +426,30 @@ function setupVueRoot() {
     <div class="vmenuItem" v-html="menu.closeMenuIcon" v-if="!menu.closed" v-on:click="menu.closed=true" title="Close Menu"></div>
   </div>
   <div class="vcontent" v-if="!menu.closed && menu.currentSelection != ''">
-    <h2>{{menu.currentSelection}}</h2>
+    <div class='vflex vtoolHeader'>
+      <h2>{{menu.currentSelection}}</h2>
+      <form v-if="menu.currentSelection == '${QUASHING}'" class='vcaseDropdown'>
+        <label
+          class='vtooltip'
+          @mouseover="settings.explainCasesDropdown = true"
+          @mouseleave="settings.explainCasesDropdown = false"
+        >
+          <span
+            class="vinfospan"
+            v-on:click="settings.explainCasesDropdown = !settings.explainCasesDropdown"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3l58.3 0c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24l0-13.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1l-58.3 0c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>
+          </span>
+            Case To Quash
+        </label>
+        <p v-if="settings.explainCasesDropdown" class='vtooltipText'>Note: if you do not see your Case, it is not opened in a tab or its iframe has not been loaded. Navigate to the case tab to allow the iframe load.</p>
+        <select v-model="settings.caseToQuash">
+          <option disabled value="">Please select one</option>
+          <option v-for="item in settings.availableCases">{{ item }}</option>
+        </select>
+      <br />
+      </form>
+    </div>
     <hr>
     <div class="vcontentpane" v-if="menu.currentSelection == '${TOOL_INFORMATION}'">
       <ToolInformation_Component />
@@ -991,15 +1027,6 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
 </div>
 <div class="vcontentpane">
   <hr>
-  <form class='vcaseDropdown'>
-    <p v-if="settings.explainCasesDropdown">Note: if you do not see your Case, it is not opened in a tab or its iframe has not been loaded. Navigate to the case tab to allow the iframe load.</p>
-    <label><span v-on:click="settings.explainCasesDropdown = !settings.explainCasesDropdown" class="vinfospan"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3l58.3 0c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24l0-13.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1l-58.3 0c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></span>Case To Quash</label>
-    <select v-model="settings.caseToQuash">
-      <option disabled value="">Please select one</option>
-      <option v-for="item in settings.availableCases">{{ item }}</option>
-    </select>
-    <br />
-  </form>
 </div>
   <div class='vcontentpaneFooter'>
     <span class="vcopytag" @click="copyToClipboard('#uxpxquashed')">#uxpxquashed</span>
