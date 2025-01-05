@@ -37,6 +37,14 @@ let stylesText = `
 #vueroot {
 }
 
+#vueroot h3 {
+    margin: initial;
+    padding-bottom: initial;
+    border-bottom: none;
+    font-size: initial;
+    color: white;
+}
+
 #vueroot .vflex {
     display: flex;
 }
@@ -76,6 +84,7 @@ let stylesText = `
     align-items: center;
     justify-content: center;
     gap: 5px;
+    margin-bottom: 3px;
 }
 
 #vueroot .vmoreInfoBtn {
@@ -824,7 +833,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
             <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
         </button>
-        <h4>${QUASHING__OBJECTIVES}</h4>
+        <h3>${QUASHING__OBJECTIVES}</h3>
     </div>
     <div v-if="settings.quashingHelp == true">
       <Quashing_Objectives_Component />
@@ -836,7 +845,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
             <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
         </button>
-        <h4>${QUASHING__QUASH_QUEUE_REPORT}</h4>
+        <h3>${QUASHING__QUASH_QUEUE_REPORT}</h3>
     </div>
     <div v-if="settings.quashingHelp == true">
       <p>The following are steps to setup a report to view the current Quash Queue:</p>
@@ -855,7 +864,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
           <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
           <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
       </button>
-      <h4>${QUASHING__CONFIRM_FEATUREIMPACTED}</h4>
+      <h3>${QUASHING__CONFIRM_FEATUREIMPACTED}</h3>
     </div>
     <div v-if="settings.quashingHelp == true">
       <p>Review the details of the ticket, and verify that the feature impacted reflects the issue in the ticket. If the feature impacted is not correct:</p>
@@ -872,7 +881,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
             <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
         </button>
-        <h4>${QUASHING__CONFIRM_TRIBE}</h4>
+        <h3>${QUASHING__CONFIRM_TRIBE}</h3>
     </div>
     <div v-if="settings.quashingHelp == true">
         <p>If the feature impacted had to be updated, it is possible that the correct owners are in a different tribe.</p>
@@ -912,7 +921,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
           <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
           <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
       </button>
-      <h4>${QUASHING__ACQUIRE_INFORMATION}</h4>
+      <h3>${QUASHING__ACQUIRE_INFORMATION}</h3>
   </div>
   <div v-if="settings.quashingHelp == true">
       <p>If the ticket does belong to your tribes queue:</p>
@@ -930,7 +939,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
             <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
         </button>
-        <h4>${QUASHING__QUICK_KILLS}</h4>
+        <h3>${QUASHING__QUICK_KILLS}</h3>
     </div>
     <div v-if="settings.quashingHelp == true">
         <p>If the ticket does belong to your tribes queue:</p>
@@ -956,7 +965,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
             <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
         </button>
-        <h4>${QUASHING__DRAIN_QUEUE}</h4>
+        <h3>${QUASHING__DRAIN_QUEUE}</h3>
     </div>
     <div v-if="settings.quashingHelp == true">
        <p>Many different approaches are acceptable, but it is recommended to block off portions of your day in your calendar to dedicate to quashing, and to benefit from the related reminders.</p>
@@ -964,12 +973,20 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
     </div>
 </div>
 <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__TAGS}'">
-  <h4>${QUASHING__TAGS}</h4>
-  <p>Here is a list of tags you can use that are associated with Quashing in your region</p>
-  <div>
-    <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-global')" >#uxpx{{ engineerRegionLC }}-global</span>
-    <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-return')" >#uxpx{{ engineerRegionLC }}-return</span>
-    <span class="vcopytag" v-on:click="copyToClipboard('#uxpxquashed')" >#uxpxquashed</span>
+  <div class='vmoreInfoHeaderWrapper'>
+    <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+      <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+    </button>
+    <h3>${QUASHING__TAGS}</h3>
+  </div>
+  <div v-if="settings.quashingHelp == true">
+    <p>Here is a list of tags you can use that are associated with Quashing in your region</p>
+    <div>
+      <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-global')" >#uxpx{{ engineerRegionLC }}-global</span>
+      <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-return')" >#uxpx{{ engineerRegionLC }}-return</span>
+      <span class="vcopytag" v-on:click="copyToClipboard('#uxpxquashed')" >#uxpxquashed</span>
+    </div>
   </div>
 </div>
 <div class="vcontentpane">
