@@ -145,7 +145,8 @@ let stylesText = `
     align-items: center;
     justify-content: center;
     gap: 5px;
-    margin-bottom: 5px;}
+    margin: 5px;
+}
 
 #vueroot .vinfospan {
     width: 16px;
@@ -852,31 +853,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             <li>Add the quashed tag to the ticket</li>
         </ol>
     </div>
-    <div class='vcontentpaneFooter'>
-        <span class="vcopytag" @click="copyToClipboard('#uxpxquashed')">#uxpxquashed</span>
-        <input type="checkbox" v-model="acquireInfo.enoughInfoPresent"></input><label>Enough Information In Ticket</label><br />
-    </div>
-    <div class="vcopytext" v-on:click="copyBaseToClipboard" v-if="acquireInfo.enoughInfoPresent">
-        <span>{{ enoughInfoPresentMessage }}</span>
-    </div>
-    <div class="verror" v-if="error != ''">{{ error }}</div>
-    <div v-if="!acquireInfo.enoughInfoPresent">
-      <div class="vcopytext" v-on:click="copyQuestionsToClipboard">
-        <span>{{ needInfoMessage }}</span>
-      </div>
-      <div class="vtabPane">
-        <div class="vtabPane__tabs">
-          <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == true }" v-on:click="acquireInfo.showGeneralQuestions = true">General</div>
-          <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == false }" v-on:click="acquireInfo.showGeneralQuestions = false">{{ fullFeatureName }}</div>
-        </div>
-        <div class="vtabPane__content voverflowPane">
-          <span class='quashingQuestions' v-if="acquireInfo.showGeneralQuestions == true" v-for="question in acquireInfo.questions.General"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
-          <span class='quashingQuestions' v-if="acquireInfo.showGeneralQuestions == false" v-for="question in acquireInfo.questions[fullFeatureName]"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
-        </div>
-      </div>
-    </div>
   </div>
-  <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__QUICK_KILLS}'">
+    <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__QUICK_KILLS}'">
     <h4>${QUASHING__QUICK_KILLS}</h4>
     <p>If the ticket does belong to your tribes queue:</p>
     <ol>
@@ -908,6 +886,29 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
       <span class="vcopytag" v-on:click="copyToClipboard('#uxpxquashed')" >#uxpxquashed</span>
     </div>
   </div>
+    <div class='vcontentpaneFooter'>
+        <span class="vcopytag" @click="copyToClipboard('#uxpxquashed')">#uxpxquashed</span>
+        <input type="checkbox" v-model="acquireInfo.enoughInfoPresent"></input><label>Enough Information In Ticket</label><br />
+    </div>
+    <div class="vcopytext" v-on:click="copyBaseToClipboard" v-if="acquireInfo.enoughInfoPresent">
+        <span>{{ enoughInfoPresentMessage }}</span>
+    </div>
+    <div class="verror" v-if="error != ''">{{ error }}</div>
+    <div v-if="!acquireInfo.enoughInfoPresent">
+      <div class="vcopytext" v-on:click="copyQuestionsToClipboard">
+        <span>{{ needInfoMessage }}</span>
+      </div>
+      <div class="vtabPane">
+        <div class="vtabPane__tabs">
+          <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == true }" v-on:click="acquireInfo.showGeneralQuestions = true">General</div>
+          <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == false }" v-on:click="acquireInfo.showGeneralQuestions = false">{{ fullFeatureName }}</div>
+        </div>
+        <div class="vtabPane__content voverflowPane">
+          <span class='quashingQuestions' v-if="acquireInfo.showGeneralQuestions == true" v-for="question in acquireInfo.questions.General"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
+          <span class='quashingQuestions' v-if="acquireInfo.showGeneralQuestions == false" v-for="question in acquireInfo.questions[fullFeatureName]"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
+        </div>
+      </div>
+    </div>
   <hr>
   <div class="vmenu vmenu--relative">
     <div v-for="(item, key) in menu.items" class="vmenuItem" :class="{ selected: menu.currentSelection==key}" v-html="item.icon" v-on:click="menu.currentSelection=key" :title="key"></div>
