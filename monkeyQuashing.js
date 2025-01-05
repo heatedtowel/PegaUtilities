@@ -141,8 +141,11 @@ let stylesText = `
 }
 
 #vueroot .vcontentpaneFooter {
-    margin-bottom: 5px;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;}
 
 #vueroot .vinfospan {
     width: 16px;
@@ -208,6 +211,15 @@ let stylesText = `
 }
 
 #vueroot .vtabPane__content  {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#vueroot .quashingQuestions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 #vueroot .verror  {
@@ -858,8 +870,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
           <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == false }" v-on:click="acquireInfo.showGeneralQuestions = false">{{ fullFeatureName }}</div>
         </div>
         <div class="vtabPane__content voverflowPane">
-          <span v-if="acquireInfo.showGeneralQuestions == true" v-for="question in acquireInfo.questions.General"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
-          <span v-if="acquireInfo.showGeneralQuestions == false" v-for="question in acquireInfo.questions[fullFeatureName]"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
+          <span class='quashingQuestions' v-if="acquireInfo.showGeneralQuestions == true" v-for="question in acquireInfo.questions.General"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
+          <span class='quashingQuestions' v-if="acquireInfo.showGeneralQuestions == false" v-for="question in acquireInfo.questions[fullFeatureName]"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
         </div>
       </div>
     </div>
