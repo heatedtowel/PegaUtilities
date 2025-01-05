@@ -5,7 +5,7 @@
 // @author       Dallin Andersen / Jesse Monks
 // @match        https://pegasupport.pega.com/prweb/PRAuth/app/support/*
 // @match        http://127.0.0.1:5500/
-// @version      1.0.6
+// @version      1.0.7
 // @downloadURL  https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // @updateURL    https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // ==/UserScript==
@@ -164,7 +164,7 @@ let stylesText = `
 
 #vueroot .vcontent {
     position: absolute;
-    max-height: calc(100vh - 70px);
+    height: calc(100vh - 100px);
     overflow-y: scroll;
     bottom: 52px;
     right: 12px;
