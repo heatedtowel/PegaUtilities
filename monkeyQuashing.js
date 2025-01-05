@@ -50,14 +50,21 @@ let stylesText = `
     align-items: center;
     justify-content: center;
     gap: 8px;
+    padding: 5px;
 }
 
 #vueroot .vengineerName {
     width: 150px;
+    margin-top: 2px;
 }
 
 #vueroot .vengineerRegion {
     width: 150px;
+    margin-top: 2px;
+}
+
+#vueroot p {
+    letter-spacing: .2px;
 }
 
 #vueroot p, #vueroot div, #vueroot li, #vueroot span {
