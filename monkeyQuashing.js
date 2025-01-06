@@ -1,22 +1,25 @@
 // ==UserScript==
 // @name         vToolBar
-// @description  ToolBar based in vue.js for streamlining housing various tools to streamline work in the GCS support portal
-// @author       Dallin Andersen
+// @description  ToolBar based in vue.js for housing various tools to streamline work in the GCS support portal
+// @sandbox      DOM
+// @author       Dallin Andersen / Jesse Monks
 // @match        https://pegasupport.pega.com/prweb/PRAuth/app/support/*
-// @version      1.0.5
+// @match        http://127.0.0.1:5500/
+// @version      1.0.6
 // @downloadURL  https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // @updateURL    https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // ==/UserScript==
 
 /**
-TODO - https://stackoverflow.com/questions/72545851/how-to-make-userscript-auto-update-from-private-domain-github
-*/
+For live development outside of the support portal you can download the extension 'Live Server' for Visual Studio Code.
+The default port is 5500, if this is not the case please use 'liveServer.settings.port' by clicking on 'settings'
+in live server via the extensions list, then 'edit settings in .json' Once setup, enable live server and the toobar
+will be enabled.
 
-/**
 For icons we can get the svg downloads directly from fontawesome:
 https://fontawesome.com/v6/search?o=r&m=free
 
-This tool is leverage vue.js:
+This tool is leveraging vue.js:
 https://vuejs.org/
 It can be used as a standalone script:
 https://vuejs.org/guide/extras/ways-of-using-vue.html#standalone-script
@@ -34,12 +37,91 @@ let stylesText = `
 #vueroot {
 }
 
+#vueroot h3 {
+    margin: initial;
+    padding-bottom: initial;
+    border-bottom: none;
+    font-size: initial;
+    color: white;
+}
+
+#vueroot .vflex {
+    display: flex;
+}
+
+#vueroot .vcenter-align {
+    align-items: center;
+}
+
+#vueroot .vcenter-justify {
+    justify-content: center;
+}
+
+#vueroot .vcolumn {
+    flex-direction: column;
+}
+
+#vueroot .vsettings {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 5px;
+}
+
+#vueroot .vengineerName {
+    width: 150px;
+    margin-top: 2px;
+}
+
+#vueroot .vengineerRegion {
+    width: 150px;
+    height: 25px;
+    margin-top: 2px;
+}
+
+#vueroot p {
+    letter-spacing: .2px;
+}
+
+#vueroot .vtoolHeader > h2 {
+    color:  white;
+}
+
 #vueroot p, #vueroot div, #vueroot li, #vueroot span {
     color: white;
 }
 
+#vueroot .vmoreInfoHeaderWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 3px;
+}
+
+#vueroot .vmoreInfoBtn {
+    background: white;
+    padding: 0 2px;
+    margin: 0;
+    border-radius: 8px;
+}
+
+#vueroot .vmoreInfoBtn:hover {
+    cursor: pointer;
+    fill: var(--main-accent-color);
+    background-color: white;
+
+}
+
+#vueroot .vmoreInfoBtn > svg {
+    height: 10px;
+    width: 15px;
+}
+
 #vueroot .vmenu {
     display: flex;
+    gap: 5px;
     position: absolute;
     bottom: 5px;
     right: 12px;
@@ -53,8 +135,11 @@ let stylesText = `
 
 #vueroot .vmenu.vmenu--relative {
     position: relative;
+    width: 75%;
     bottom: initial;
-    right: initial;
+    left: 15px;
+    display: flex;
+    gap: 8px;
     padding: 0px;
 }
 
@@ -62,8 +147,8 @@ let stylesText = `
     transition: all 0.5s ease-out;
     fill: white;
     background-color: var(--main-accent-color);
-    height: 32px;
-    width: 32px;
+    height: 25px;
+    width: 25px;
     padding: 5px;
     display: grid;
     vertical-align: middle;
@@ -79,6 +164,8 @@ let stylesText = `
 
 #vueroot .vcontent {
     position: absolute;
+    max-height: calc(100vh - 70px);
+    overflow-y: scroll;
     bottom: 52px;
     right: 12px;
     width: 375px;
@@ -104,29 +191,47 @@ let stylesText = `
 }
 
 #vueroot .vcontent label {
-    margin-right: 5px;
+    margin: 0 5px;
 }
 
 #vueroot .vcontentpane {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
 
+#vueroot .vcontentpaneFooter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 5px;
 }
 
 #vueroot .vinfospan {
+    position: relative;
     width: 16px;
-    display: block;
-    float: left;
-    margin-right: 0px;
+    display: inline-block;
     fill: white;
 }
 
-#vueroot .vinfospan:hover {
-    cursor: help;
+#vueroot .vtooltipText {
+  position: absolute;
+  left: 20px;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  z-index: 1;
 }
 
 #vueroot .vcopytext {
     background-color: white;
     padding: 5px;
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: scroll;
 }
 
@@ -137,11 +242,11 @@ let stylesText = `
 #vueroot .vcopytext span {
     color: var(--main-accent-color);
     white-space: pre-line;
+    height: 100%;
+    max-height: 240px;
 }
 
 #vueroot .voverflowPane {
-    max-height: 200px;
-    overflow-y: scroll;
 }
 
 #vueroot .vtabPane {
@@ -175,6 +280,15 @@ let stylesText = `
 }
 
 #vueroot .vtabPane__content  {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#vueroot .vquashingQuestions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 #vueroot .verror  {
@@ -191,6 +305,10 @@ let stylesText = `
     color: var(--main-accent-color);
     margin-right: 5px;
     margin-top: 3px;
+}
+
+#vueroot .vcaseDropdown   {
+    justify-self: center;
 }
 
 #vueroot .vcopytag:hover  {
@@ -266,12 +384,12 @@ function setupVueRoot() {
             this.settings.engineerRegion = (engineerRegion ? engineerRegion : (engineerRegionUI ? engineerRegionUI : ''))
         },
         watch: {
-          'settings.engineerName'() {
-              localStorage.setItem(VTOOL_SETTINGS_ENGINEERNAME, this.settings.engineerName)
-          },
-          'settings.engineerRegion'() {
-              localStorage.setItem(VTOOL_SETTINGS_ENGINEERREGION, this.settings.engineerRegion)
-          }
+            'settings.engineerName'() {
+                localStorage.setItem(VTOOL_SETTINGS_ENGINEERNAME, this.settings.engineerName)
+            },
+            'settings.engineerRegion'() {
+                localStorage.setItem(VTOOL_SETTINGS_ENGINEERREGION, this.settings.engineerRegion)
+            }
         },
         data() {
             return {
@@ -315,21 +433,25 @@ function setupVueRoot() {
     <div class="vmenuItem" v-html="menu.closeMenuIcon" v-if="!menu.closed" v-on:click="menu.closed=true" title="Close Menu"></div>
   </div>
   <div class="vcontent" v-if="!menu.closed && menu.currentSelection != ''">
-    <h2>{{menu.currentSelection}}</h2>
+    <div class='vflex vtoolHeader'>
+      <h2>{{menu.currentSelection}}</h2>
+    </div>
     <hr>
     <div class="vcontentpane" v-if="menu.currentSelection == '${TOOL_INFORMATION}'">
       <ToolInformation_Component />
     </div>
-    <div class="vcontentpane" v-if="menu.currentSelection == '${TOOL_SETTINGS}'">
-    <form>
-      <label>Engineer Name</label>
-      <input v-model="settings.engineerName"><br />
-      <label>Engineer Region</label>
-      <select v-model="settings.engineerRegion">
-        <option disabled value="">Please select one</option>
-        <option v-for="item in menu.items['${TOOL_SETTINGS}'].regionOptions">{{ item }}</option>
-      </select><br />
-    </form>
+    <div class="vsettings" v-if="menu.currentSelection == '${TOOL_SETTINGS}'">
+      <div class='vflex vcolumn'>
+        <label>Engineer Name</label>
+        <input class='vengineerName' v-model="settings.engineerName">
+      </div>
+      <div class='vflex vcolumn'>
+        <label>Engineer Region</label>
+        <select class='vengineerRegion' v-model="settings.engineerRegion">
+          <option disabled value="">Please select one</option>
+          <option v-for="item in menu.items['${TOOL_SETTINGS}'].regionOptions">{{ item }}</option>
+        </select>
+      </div>
     </div>
     <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING}'">
       <Quashing_Component />
@@ -346,12 +468,12 @@ function setupVueRoot() {
 *   ------------------------------------------------------ ------------------------------------------------------ */
 
 let ToolInformation_Component = {
-  data() {
-    return {
-      count: 0
-    }
-  },
-  template: `
+    data() {
+        return {
+            count: 0
+        }
+    },
+    template: `
 <p>This tool is to help streamline various tasks within the Support Portal. Please submit feedback to Dallin.Andersen@pega.com and Jesse.Monks@pega.com</p>
 
     `
@@ -663,7 +785,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             settings: {
                 caseToQuash: '',
                 availableCases: [],
-                explainCasesDropdown: false
+                explainCasesDropdown: false,
+                quashingHelp: true
             },
             error: ''
         }
@@ -712,133 +835,174 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
             navigator.clipboard.writeText(this.needInfoMessage)
         },
         copyToClipboard(valueToCopy) {
-            navigator.clipboard.writeText(valueToCopy)
+            navigator.clipboard.writeText(valueToCopy);
+        },
+        toggleQuashHelp() {
+            if (this.settings.quashingHelp === true || this.settings.quashingHelp === false) {
+                this.settings.quashingHelp = !this.settings.quashingHelp;
+            }
         }
     },
     template: `
 <div>
-  <div class="vcontentpane" v-if="menu.currentSelection != '${QUASHING__OBJECTIVES}'">
-    <form>
-      <p v-if="settings.explainCasesDropdown">Note: if you do not see your Case, it is not opened in a tab or its iframe has not been loaded. Navigate to the case tab to allow the iframe load.</p>
-      <label><span v-on:click="settings.explainCasesDropdown = !settings.explainCasesDropdown" class="vinfospan"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3l58.3 0c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24l0-13.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1l-58.3 0c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></span>Case To Quash</label>
-      <select v-model="settings.caseToQuash">
-        <option disabled value="">Please select one</option>
-        <option v-for="item in settings.availableCases">{{ item }}</option>
-      </select><br />
-    </form>
+  <div class="vmenu vmenu--relative">
+    <div v-for="(item, key) in menu.items" class="vmenuItem" :class="{ selected: menu.currentSelection==key}" v-html="item.icon" v-on:click="menu.currentSelection=key" :title="key"></div>
   </div>
-  <hr v-if="menu.currentSelection != '${QUASHING__OBJECTIVES}'">
+  <hr>
   <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__OBJECTIVES}'">
-    <h4>${QUASHING__OBJECTIVES}</h4>
-    <Quashing_Objectives_Component />
+    <div class='vmoreInfoHeaderWrapper'>
+        <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+            <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+        </button>
+        <h3>${QUASHING__OBJECTIVES}</h3>
+    </div>
+    <div v-if="settings.quashingHelp == true">
+      <Quashing_Objectives_Component />
+    </div>
   </div>
   <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__QUASH_QUEUE_REPORT}'">
-    <h4>${QUASHING__QUASH_QUEUE_REPORT}</h4>
-    <p>The following are steps to setup a report to view the current Quash Queue:</p>
-    <ol>
-      <li>Pega Support Portal</li>
-      <li>Open Tickets Dashboard</li>
-      <li>Open "Owner" column filters</li>
-      <li>Apply "GCS-Quash-User and Product Experience" filter</li>
-      <li>Save as new view "UI Quash"</li>
-    </ol>
+    <div class='vmoreInfoHeaderWrapper'>
+        <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+            <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+        </button>
+        <h3>${QUASHING__QUASH_QUEUE_REPORT}</h3>
+    </div>
+    <div v-if="settings.quashingHelp == true">
+      <p>The following are steps to setup a report to view the current Quash Queue:</p>
+      <ol>
+        <li>Pega Support Portal</li>
+        <li>Open Tickets Dashboard</li>
+        <li>Open "Owner" column filters</li>
+        <li>Apply "GCS-Quash-User and Product Experience" filter</li>
+        <li>Save as new view "UI Quash"</li>
+      </ol>
+    </div>
   </div>
   <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__CONFIRM_FEATUREIMPACTED}'">
-    <h4>${QUASHING__CONFIRM_FEATUREIMPACTED}</h4>
-    <p>Review the details of the ticket, and verify that the feature impacted reflects the issue in the ticket. If the feature impacted is not correct:</p>
-    <ol>
-      <li>Start the “Review case (Triage)” assignment</li>
-      <li>Update the “Feature Impacted” field</li>
-      <li>Save</li>
-    </ol>
+    <div class='vmoreInfoHeaderWrapper'>
+      <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+          <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+      </button>
+      <h3>${QUASHING__CONFIRM_FEATUREIMPACTED}</h3>
+    </div>
+    <div v-if="settings.quashingHelp == true">
+      <p>Review the details of the ticket, and verify that the feature impacted reflects the issue in the ticket. If the feature impacted is not correct:</p>
+      <ol>
+        <li>Start the “Review case (Triage)” assignment</li>
+        <li>Update the “Feature Impacted” field</li>
+        <li>Save</li>
+      </ol>
+    </div>
   </div>
   <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__CONFIRM_TRIBE}'">
-    <h4>${QUASHING__CONFIRM_TRIBE}</h4>
-    <p>If the feature impacted had to be updated, it is possible that the correct owners are in a different tribe.</p>
-    <p>If you KNOW which tribe should own the ticket then transfer it to the appropriate GCS quash queue.</p>
-    <p>If you are not certain which tribe should own the ticket:</p>
-    <ol>
-      <li>Create a Webex space for the INC
-        <ol type="a">
-          <li>Open INC-XXXXXX > Actions > Create Webex Space</li>
-          <li>Connect your Webex account (if not already done)</li>
-          <li>Submit</li>
-          <li>Open Webex and find your newly created space</li>
-        </ol>
-      </li>
-      <li>Add the Tribe leads to the Webex Space (For the tribes you believe should take the case forward)
-        <ol type="a">
-          <li>Find the correct tribe on <a href="https://knowledgehub.pega.com/GCS:Gcs-alliances" target="_blank">GCS Org Structure</a> and open their page</li>
-          <li>Locate the Tribe leads at the top</li>
-          <li>In the new Webex space, add these Tribe leads</li>
-        </ol>
-      </li>
-      <li>Provide your analysis in the Webex space for the Tribe leads to review
-        <ol type="a">
-          <li>Include related evidence (screenshots, tracer files, har files, log files, etc)</li>
-          <li>Describe why you believe the evidence points to the issue being in the new tribe</li>
-          <li>Answer any questions from the tribe leads</li>
-        </ol>
-      </li>
-      <li>If the tribe leads provide confirmation, route the ticket to the new tribe</li>
-    </ol>
-    <p>Note that this process can also be done through the Case Transfers Webex Space.</p>
-  </div>
-  <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__ACQUIRE_INFORMATION}'">
-    <h4>${QUASHING__ACQUIRE_INFORMATION}</h4>
-    <p>If the ticket does belong to your tribes queue:</p>
-    <ol>
-      <li>Ask the client for the necessary information (Use the template tool below to assist with this)</li>
-      <li>Start the “Review case (Triage)” assignment</li>
-      <li>Complete the quashing assignment, transferring the case to the work queue "GCS-User and Product Experience"</li>
-      <li>Add the quashed tag to the ticket <span class="vcopytag" v-on:click="copyToClipboard('#uxpxquashed')" >#uxpxquashed</span></li>
-    </ol>
-    <input type="checkbox" v-model="acquireInfo.enoughInfoPresent"></input><label>Enough Information In Ticket</label><br />
-    <div class="vcopytext" v-on:click="copyBaseToClipboard" v-if="acquireInfo.enoughInfoPresent">
-      <span>{{ enoughInfoPresentMessage }}</span>
+    <div class='vmoreInfoHeaderWrapper'>
+        <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+            <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+        </button>
+        <h3>${QUASHING__CONFIRM_TRIBE}</h3>
     </div>
-    <div class="verror" v-if="error != ''">{{ error }}</div>
-    <div v-if="!acquireInfo.enoughInfoPresent">
-      <div class="vcopytext" v-on:click="copyQuestionsToClipboard">
-        <span>{{ needInfoMessage }}</span>
-      </div>
-      <div class="vtabPane">
-        <div class="vtabPane__tabs">
-          <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == true }" v-on:click="acquireInfo.showGeneralQuestions = true">General</div>
-          <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == false }" v-on:click="acquireInfo.showGeneralQuestions = false">{{ fullFeatureName }}</div>
-        </div>
-        <div class="vtabPane__content voverflowPane">
-          <span v-if="acquireInfo.showGeneralQuestions == true" v-for="question in acquireInfo.questions.General"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
-          <span v-if="acquireInfo.showGeneralQuestions == false" v-for="question in acquireInfo.questions[fullFeatureName]"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__QUICK_KILLS}'">
-    <h4>${QUASHING__QUICK_KILLS}</h4>
-    <p>If the ticket does belong to your tribes queue:</p>
-    <ol>
-      <li>Review GCS Buddy recommendations and other similar incidents</li>
-      <li>Verify if the clients query/issue is known and has a ready answer/solution.
-        <ol type="a">
-          <li>If yes, provide the answer to the client and take ownership of the case</li>
-          <li>If no, provide internal notes on your relevant findings that may help an engineer review the case faster, then transfer to the work queue "GCS-User and Product Experience"</li>
+    <div v-if="settings.quashingHelp == true">
+        <p>If the feature impacted had to be updated, it is possible that the correct owners are in a different tribe.</p>
+        <p>If you KNOW which tribe should own the ticket then transfer it to the appropriate GCS quash queue.</p>
+        <p>If you are not certain which tribe should own the ticket:</p>
+        <ol>
+            <li>Create a Webex space for the INC
+                <ol type="a">
+                    <li>Open INC-XXXXXX > Actions > Create Webex Space</li>
+                    <li>Connect your Webex account (if not already done)</li>
+                    <li>Submit</li>
+                    <li>Open Webex and find your newly created space</li>
+                </ol>
+            </li>
+            <li>Add the Tribe leads to the Webex Space (For the tribes you believe should take the case forward)
+                <ol type="a">
+                    <li>Find the correct tribe on <a href="https://knowledgehub.pega.com/GCS:Gcs-alliances" target="_blank">GCS Org Structure</a> and open their page</li>
+                    <li>Locate the Tribe leads at the top</li>
+                    <li>In the new Webex space, add these Tribe leads</li>
+                </ol>
+            </li>
+            <li>Provide your analysis in the Webex space for the Tribe leads to review
+                <ol type="a">
+                    <li>Include related evidence (screenshots, tracer files, har files, log files, etc)</li>
+                    <li>Describe why you believe the evidence points to the issue being in the new tribe</li>
+                    <li>Answer any questions from the tribe leads</li>
+                </ol>
+            </li>
+            <li>If the tribe leads provide confirmation, route the ticket to the new tribe</li>
         </ol>
-      </li>
-    </ol>
-    <p>If the ticket belongs to your tribes' queue, but to a different region ({{ otherRegionsText }}), when you take ownership add the following tag</p>
-    <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-global')" >#uxpx{{ engineerRegionLC }}-global</span>
-    <p>Note: If after taking ownership, the case was not resolved as expected, you can chat with your manager about reassignment, as would be done for a case in the work queue.</p>
-    <p>If you are returning a case to the queue that belongs to a different region add the following tag:</p>
-    <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-return')" >#uxpx{{ engineerRegionLC }}-return</span>
+        <p>Note that this process can also be done through the Case Transfers Webex Space.</p>
+    </div>
+</div>
+<div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__ACQUIRE_INFORMATION}'">
+  <div class='vmoreInfoHeaderWrapper'>
+      <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+          <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+      </button>
+      <h3>${QUASHING__ACQUIRE_INFORMATION}</h3>
   </div>
-  <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__DRAIN_QUEUE}'">
-    <h4>${QUASHING__DRAIN_QUEUE}</h4>
-    <p>Many different approaches are acceptable, but it is recommended to block off portions of your day in your calendar to dedicate to quashing, and to benefit from the related reminders.</p>
-    <p>If you are unable to drain the quash queue for any reason at the end of your day, please note the details that blocked you from draining the queue in the <b>“GCS - UXPX - Quash Queue Squad”</b> Webex space and prep the Quashing engineer in the next region for the tickets they are inheriting from your shift.</p>
+  <div v-if="settings.quashingHelp == true">
+      <p>If the ticket does belong to your tribes queue:</p>
+      <ol>
+          <li>Ask the client for the necessary information (Use the template tool below to assist with this)</li>
+          <li>Start the “Review case (Triage)” assignment</li>
+          <li>Complete the quashing assignment, transferring the case to the work queue "GCS-User and Product Experience"</li>
+          <li>Add the quashed tag to the ticket</li>
+      </ol>
   </div>
-  <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__TAGS}'">
-    <h4>${QUASHING__TAGS}</h4>
+</div>
+<div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__QUICK_KILLS}'">
+    <div class='vmoreInfoHeaderWrapper'>
+        <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+            <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+        </button>
+        <h3>${QUASHING__QUICK_KILLS}</h3>
+    </div>
+    <div v-if="settings.quashingHelp == true">
+        <p>If the ticket does belong to your tribes queue:</p>
+        <ol>
+            <li>Review GCS Buddy recommendations and other similar incidents</li>
+            <li>Verify if the clients query/issue is known and has a ready answer/solution.
+                <ol type="a">
+                    <li>If yes, provide the answer to the client and take ownership of the case</li>
+                    <li>If no, provide internal notes on your relevant findings that may help an engineer review the case faster, then transfer to the work queue "GCS-User and Product Experience"</li>
+                </ol>
+            </li>
+        </ol>
+        <p>If the ticket belongs to your tribes' queue, but to a different region ({{ otherRegionsText }}), when you take ownership add the following tag</p>
+        <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-global')" >#uxpx{{ engineerRegionLC }}-global</span>
+        <p>Note: If after taking ownership, the case was not resolved as expected, you can chat with your manager about reassignment, as would be done for a case in the work queue.</p>
+        <p>If you are returning a case to the queue that belongs to a different region add the following tag:</p>
+        <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-return')" >#uxpx{{ engineerRegionLC }}-return</span>
+    </div>
+</div>
+<div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__DRAIN_QUEUE}'">
+    <div class='vmoreInfoHeaderWrapper'>
+        <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+            <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+        </button>
+        <h3>${QUASHING__DRAIN_QUEUE}</h3>
+    </div>
+    <div v-if="settings.quashingHelp == true">
+       <p>Many different approaches are acceptable, but it is recommended to block off portions of your day in your calendar to dedicate to quashing, and to benefit from the related reminders.</p>
+       <p>If you are unable to drain the quash queue for any reason at the end of your day, please note the details that blocked you from draining the queue in the <b>“GCS - UXPX - Quash Queue Squad”</b> Webex space and prep the Quashing engineer in the next region for the tickets they are inheriting from your shift.</p>
+    </div>
+</div>
+<div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__TAGS}'">
+  <div class='vmoreInfoHeaderWrapper'>
+    <button class='vmoreInfoBtn' @click='toggleQuashHelp()'>
+      <svg v-if='settings.quashingHelp' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+    </button>
+    <h3>${QUASHING__TAGS}</h3>
+  </div>
+  <div v-if="settings.quashingHelp == true">
     <p>Here is a list of tags you can use that are associated with Quashing in your region</p>
     <div>
       <span class="vcopytag" v-on:click="copyToClipboard('#uxpx'+engineerRegionLC+'-global')" >#uxpx{{ engineerRegionLC }}-global</span>
@@ -846,10 +1010,50 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
       <span class="vcopytag" v-on:click="copyToClipboard('#uxpxquashed')" >#uxpxquashed</span>
     </div>
   </div>
+</div>
+<div class="vcontentpane">
   <hr>
-  <div class="vmenu vmenu--relative">
-    <div v-for="(item, key) in menu.items" class="vmenuItem" :class="{ selected: menu.currentSelection==key}" v-html="item.icon" v-on:click="menu.currentSelection=key" :title="key"></div>
+</div>
+<div class='vflex vcenter-align vcenter-justify'>
+   <form class='vcaseDropdown'>
+     <label class='vtooltip'>
+       <span class="vinfospan" @mouseover="settings.explainCasesDropdown = true" @mouseleave="settings.explainCasesDropdown = false">
+         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3l58.3 0c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24l0-13.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1l-58.3 0c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>
+       </span>
+         Case To Quash
+     </label>
+     <p v-if="settings.explainCasesDropdown" class='vtooltipText'>Note: if you do not see your Case, it is not opened in a tab or its iframe has not been loaded. Navigate to the case tab to allow the iframe load.</p>
+     <select v-model="settings.caseToQuash">
+       <option disabled value="">Please select one</option>
+       <option v-for="item in settings.availableCases">{{ item }}</option>
+     </select>
+     <br />
+   </form>
+</div>
+<div class='vcontentpaneFooter'>
+    <span class="vcopytag" @click="copyToClipboard('#uxpxquashed')">#uxpxquashed</span>
+      <input type="checkbox" @change="!$event.target.checked ? settings.quashingHelp = false : ''" v-model="acquireInfo.enoughInfoPresent"></input><label>Enough Information In Ticket</label><br />
   </div>
+  <div class="vcopytext" v-on:click="copyBaseToClipboard" v-if="acquireInfo.enoughInfoPresent">
+      <span>{{ enoughInfoPresentMessage }}</span>
+  </div>
+  <div class="verror" v-if="error != ''">{{ error }}</div>
+  <div v-if="!acquireInfo.enoughInfoPresent">
+    <div class="vcopytext" v-on:click="copyQuestionsToClipboard">
+      <span>{{ needInfoMessage }}</span>
+    </div>
+    <div class="vtabPane">
+      <div class="vtabPane__tabs">
+        <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == true }" v-on:click="acquireInfo.showGeneralQuestions = true">General</div>
+        <div class="vtabPane__tab" :class="{ 'vtabPane__tab--selected': acquireInfo.showGeneralQuestions == false }" v-on:click="acquireInfo.showGeneralQuestions = false">{{ fullFeatureName }}</div>
+      </div>
+      <div class="vtabPane__content voverflowPane">
+        <span class='vquashingQuestions' v-if="acquireInfo.showGeneralQuestions == true" v-for="question in acquireInfo.questions.General"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
+        <span class='vquashingQuestions' v-if="acquireInfo.showGeneralQuestions == false" v-for="question in acquireInfo.questions[fullFeatureName]"><input type="checkbox" v-model="question.selected"></input><label>{{ question.text }}</label><br /></span>
+      </div>
+    </div>
+  </div>
+<hr>
 </div>
     `
 }
