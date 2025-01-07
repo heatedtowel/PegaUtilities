@@ -309,8 +309,11 @@ letter-spacing: .8px;
 
 #vueroot .vquashingQuestions {
     display: flex;
-    gap: 8px;
     align-items: center;
+    justify-content: flex-start;
+    background: rgb(52 61 97);
+    padding: 4px;
+    border-radius: 6px;
 }
 
 #vueroot .verror  {
