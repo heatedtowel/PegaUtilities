@@ -30,11 +30,20 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 */
 
 let stylesText = `
+*{
+letter-spacing: .8px;
+}
+
 #vueroot {
     --main-accent-color: rgb(27, 38, 84);
 }
 
 #vueroot {
+}
+
+#vueroot h2 {
+    margin: 0;
+    padding: 0;
 }
 
 #vueroot h3 {
@@ -82,6 +91,10 @@ let stylesText = `
 
 #vueroot p {
     letter-spacing: .2px;
+}
+
+#vueroot .vtoolHeader {
+    padding-bottom: 8px;
 }
 
 #vueroot .vtoolHeader > h2 {
@@ -133,22 +146,23 @@ let stylesText = `
     color: white;
 }
 
-#vueroot .vmenu.vmenu--relative {
-    position: relative;
-    width: 75%;
-    bottom: initial;
-    left: 15px;
-    display: flex;
-    gap: 8px;
-    padding: 0px;
+#vueroot .viconWrapper {
+    padding: 0 8px 8px 8px;
+    gap: 12px;
+}
+
+#vueroot .vcloseIcon {
+    position: absolute;
+    right: 8px;
+    top: 8px;
 }
 
 #vueroot .vmenuItem {
     transition: all 0.5s ease-out;
     fill: white;
     background-color: var(--main-accent-color);
-    height: 25px;
-    width: 25px;
+    height: 16px;
+    width: 16px;
     padding: 5px;
     display: grid;
     vertical-align: middle;
@@ -172,14 +186,10 @@ let stylesText = `
     background-color: #53189A;
     background-color: #681FC3;
     background-color: var(--main-accent-color);
-    padding: 5px;
+    padding: 8px;
     border-radius: 7px;
     color: white;
     z-index: 500;
-}
-
-#vueroot .vcontent hr {
-    margin: 5px;
 }
 
 #vueroot .vcontent input, #vueroot .vcontent select {
@@ -194,8 +204,15 @@ let stylesText = `
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 5px;
+    padding: 8px 0;
 }
+
+#vueroot .vcontentInnerPane {
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
 
 #vueroot .vcontentpaneFooter {
     display: flex;
@@ -436,6 +453,7 @@ function setupVueRoot() {
   <div class="vcontent" v-if="!menu.closed && menu.currentSelection != ''">
     <div class='vflex vcenter-align vcenter-justify vtoolHeader'>
       <h2>{{menu.currentSelection}}</h2>
+      <div class="vmenuItem vcloseIcon" v-html="menu.closeMenuIcon" v-if="!menu.closed" v-on:click="menu.closed=true" title="Close Menu"></div>
     </div>
     <hr>
     <div class="vcontentpane" v-if="menu.currentSelection == '${TOOL_INFORMATION}'">
@@ -846,8 +864,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
     },
     template: `
 <div>
-  <div class="vmenu vmenu--relative">
-    <div v-for="(item, key) in menu.items" class="vmenuItem" :class="{ selected: menu.currentSelection==key}" v-html="item.icon" v-on:click="menu.currentSelection=key" :title="key"></div>
+  <div class="vflex vcenter-align vcenter-justify viconWrapper">
+    <span v-for="(item, key) in menu.items" class="vmenuItem" :class="{ selected: menu.currentSelection==key}" v-html="item.icon" v-on:click="menu.currentSelection=key" :title="key"></span>
   </div>
   <hr>
   <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__OBJECTIVES}'">
@@ -964,7 +982,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
         </button>
         <h3>${QUASHING__QUICK_KILLS}</h3>
     </div>
-    <div v-if="settings.quashingHelp == true">
+    <div v-if="settings.quashingHelp == true"  class='vflex vcolumn vcontentInnerPane'>
         <p>If the ticket does belong to your tribes queue:</p>
         <ol>
             <li>Review GCS Buddy recommendations and other similar incidents</li>
