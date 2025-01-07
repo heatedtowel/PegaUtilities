@@ -213,6 +213,10 @@ letter-spacing: .8px;
     align-items: center;
 }
 
+#vueroot .vcontentLowerPane {
+    padding: 8px 0;
+}
+
 
 #vueroot .vcontentpaneFooter {
     display: flex;
@@ -542,14 +546,14 @@ let Quashing_Objectives_Component = {
     `
 }
 
-const QUASHING__OBJECTIVES = 'Quashing - Objectives';
-const QUASHING__CONFIRM_FEATUREIMPACTED = 'Quashing - Confirm Feature Impacted';
-const QUASHING__CONFIRM_TRIBE = 'Quashing - Confirm Tribe';
-const QUASHING__ACQUIRE_INFORMATION = 'Quashing - Acquire Information';
-const QUASHING__QUICK_KILLS = 'Quashing - Quick Kills';
-const QUASHING__DRAIN_QUEUE = 'Quashing - Drain Queue';
-const QUASHING__TAGS = 'Quashing - Tags';
-const QUASHING__QUASH_QUEUE_REPORT = 'Quashing - Quash Queue Report';
+const QUASHING__OBJECTIVES = 'Objectives';
+const QUASHING__CONFIRM_FEATUREIMPACTED = 'Confirm Feature Impacted';
+const QUASHING__CONFIRM_TRIBE = 'Confirm Tribe';
+const QUASHING__ACQUIRE_INFORMATION = 'Acquire Information';
+const QUASHING__QUICK_KILLS = 'Quick Kills';
+const QUASHING__DRAIN_QUEUE = 'Drain Queue';
+const QUASHING__TAGS = 'Tags';
+const QUASHING__QUASH_QUEUE_REPORT = 'Quash Queue Report';
 
 const QUASHING__F__GENERAL = 'General';
 const QUASHING__F__CONSTELLATION_UI__GENERAL = 'Constellation UI -> General';
@@ -1030,10 +1034,8 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
     </div>
   </div>
 </div>
-<div class="vcontentpane">
   <hr>
-</div>
-<div class='vflex vcenter-align vcenter-justify'>
+<div class='vflex vcenter-align vcenter-justify vcolumn vcontentLowerPane'>
    <form class='vcaseDropdown'>
      <label class='vtooltip'>
        <p v-if="settings.explainCasesDropdown" class='vtooltipText'>If you do not see your Case, it is not opened in a tab or its iframe has not been loaded. Navigate to the case tab to allow the iframe load.</p>
@@ -1048,7 +1050,6 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
      </select>
      <br />
    </form>
-</div>
 <div class='vcontentpaneFooter'>
     <span class="vcopytag" @click="copyToClipboard('#uxpxquashed')">#uxpxquashed</span>
       <input type="checkbox" @change="!$event.target.checked ? settings.quashingHelp = false : ''" v-model="acquireInfo.enoughInfoPresent"></input><label>Enough Information In Ticket</label><br />
@@ -1073,6 +1074,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
     </div>
   </div>
 <hr>
+</div>
 </div>
     `
 }
