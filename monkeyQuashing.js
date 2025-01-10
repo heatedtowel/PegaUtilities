@@ -872,7 +872,7 @@ ${localStorage.getItem(VTOOL_SETTINGS_ENGINEERNAME)}`
     template: `
 <div>
   <div class="vflex vcenter-align vcenter-justify viconWrapper">
-    <span v-for="(item, key) in menu.items" class="vmenuItem" :class="{ selected: menu.currentSelection==key}" v-html="item.icon" v-on:click="menu.currentSelection=key" :title="key"></span>
+    <span v-for="(item, key) in menu.items" class="vmenuItem" :class="{ selected: menu.currentSelection==key}" v-html="item.icon" v-on:click="menu.currentSelection=key; settings.quashingHelp = true" :title="key"></span>
   </div>
   <hr>
   <div class="vcontentpane" v-if="menu.currentSelection == '${QUASHING__OBJECTIVES}'">
