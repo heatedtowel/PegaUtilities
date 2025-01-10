@@ -30,10 +30,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 */
 
 let stylesText = `
-*{
-letter-spacing: .8px;
-}
-
 #vueroot {
     --main-accent-color: rgb(27, 38, 84);
 }
