@@ -5,7 +5,7 @@
 // @author       Dallin Andersen / Jesse Monks
 // @match        https://pegasupport.pega.com/prweb/PRAuth/app/support/*
 // @match        http://127.0.0.1:5500/
-// @version      1.0.7
+// @version      1.0.8
 // @downloadURL  https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // @updateURL    https://github.com/heatedtowel/PegaUtilities/raw/refs/heads/master/monkeyQuashing.js
 // ==/UserScript==
