@@ -1,4 +1,5 @@
 javascript:(function () {
+    console.log('t');
     const id = window.prompt('What is the BUG or Story ID?');
-    location.replace(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/project-managements/${id}`);
+    window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/project-managements/${id}`, '_blank').focus();
 })();
