@@ -1,4 +1,20 @@
 javascript:(function () {
-    const id = window.prompt('What is the BUG or Story ID?');
-    window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/project-managements/${id}`, '_blank').focus();
-})();
+    const id = window.prompt('What is the BUG ID?');
+    const idType = id.split('-')[0];
+
+    if (idType === 'BUG') {
+        window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/project-managements/${id}`, '_blank').focus();
+    }
+
+    if (idType === 'US') {
+        window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/story/${id}`, '_blank').focus();
+    }
+
+    if (idType === 'EPIC') {
+        window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/epics/${id}`, '_blank').focus();
+    }
+
+    if (idType === 'FDBK') {
+        window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/feedback/${id}`, '_blank').focus();
+    }
+})();   
