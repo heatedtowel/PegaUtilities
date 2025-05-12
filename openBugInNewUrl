@@ -1,5 +1,5 @@
 javascript:(function () {
-    const id = window.prompt('What is the BUG ID?');
+    const id = window.prompt('What is the ID?');
     const idType = id.split('-')[0];
 
     if (idType.toUpperCase() === 'BUG') {
