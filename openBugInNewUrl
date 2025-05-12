@@ -2,19 +2,19 @@ javascript:(function () {
     const id = window.prompt('What is the BUG ID?');
     const idType = id.split('-')[0];
 
-    if (idType === 'BUG') {
+    if (idType.toUpperCase() === 'BUG') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/project-managements/${id}`, '_blank').focus();
     }
 
-    if (idType === 'US') {
+    if (idType.toUpperCase() === 'US') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/story/${id}`, '_blank').focus();
     }
 
-    if (idType === 'EPIC') {
+    if (idType.toUpperCase() === 'EPIC') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/epics/${id}`, '_blank').focus();
     }
 
-    if (idType === 'FDBK') {
+    if (idType.toUpperCase() === 'FDBK') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/feedback/${id}`, '_blank').focus();
     }
 })();   
