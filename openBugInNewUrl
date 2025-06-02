@@ -2,6 +2,10 @@ javascript:(function () {
     const id = window.prompt('What is the ID?');
     const idType = id.split('-')[0];
 
+    if (idType.toUpperCase() === 'INC') {
+        window.open(`https://pegasupport.pega.com/prweb/PRAuth/app/support/sso/support/${id}`, '_blank').focus();
+    }
+
     if (idType.toUpperCase() === 'BUG') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/project-managements/${id}`, '_blank').focus();
     }
