@@ -1,24 +1,24 @@
 javascript:(function () {
     const id = window.prompt('What is the ID?');
-    const idType = id.split('-')[0];
+    const idType = id.split('-')[0].toUpperCase();
 
-    if (idType.toUpperCase() === 'INC') {
+    if (idType === 'INC') {
         window.open(`https://pegasupport.pega.com/prweb/PRAuth/app/support/sso/support/${id}`, '_blank').focus();
     }
 
-    if (idType.toUpperCase() === 'BUG') {
+    if (idType === 'BUG') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/project-managements/${id}`, '_blank').focus();
     }
 
-    if (idType.toUpperCase() === 'US') {
+    if (idType === 'US') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/story/${id}`, '_blank').focus();
     }
 
-    if (idType.toUpperCase() === 'EPIC') {
+    if (idType === 'EPIC') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/epics/${id}`, '_blank').focus();
     }
 
-    if (idType.toUpperCase() === 'FDBK') {
+    if (idType === 'FDBK') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/feedback/${id}`, '_blank').focus();
     }
 })();   
