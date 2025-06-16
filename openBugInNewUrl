@@ -2,7 +2,7 @@ javascript:(function () {
     const id = window.prompt('What is the ID?');
     const idType = id.split('-')[0].toUpperCase();
 
-    if (idType === 'INC') {
+    if (idType === 'INC' || idType === 'PRB') {
         window.open(`https://pegasupport.pega.com/prweb/PRAuth/app/support/sso/support/${id}`, '_blank').focus();
     }
 
