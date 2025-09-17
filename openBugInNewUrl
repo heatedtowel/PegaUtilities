@@ -1,6 +1,7 @@
 javascript:(function () {
-    const id = window.prompt('What is the ID?');
+    const id = window.prompt('What is the ID? If looking for a reference system please use ref-xxx');
     const idType = id.split('-')[0].toUpperCase();
+    const refSys = id.split('-')[1];
 
     if (idType === 'INC' || idType === 'PRB') {
         window.open(`https://pegasupport.pega.com/prweb/PRAuth/app/support/sso/support/${id}`, '_blank').focus();
@@ -20,5 +21,9 @@ javascript:(function () {
 
     if (idType === 'FDBK') {
         window.open(`https://agilestudio.pega.com/prweb/AgileStudio/app/agilestudio/feedback/${id}`, '_blank').focus();
+    }
+
+    if (idType === 'REF') {
+        window.open(`https://pegalabs.pega.com/ui/my-systems?category=department&search=${refSys}`, '_blank').focus();
     }
 })();   
