@@ -4,7 +4,7 @@ javascript:(function () {
     const refSys = id.split('-')[1];
 
     if (idType === 'INC' || idType === 'PRB') {
-        window.open(`https://pegasupport.pega.com/prweb/PRAuth/app/support/sso/support/${id}`, '_blank').focus();
+        window.open(`https://pegasupport.pega.com/prweb/PRAuth/app/support/incidents/${id}`, '_blank').focus();
     }
 
     if (idType === 'BUG') {
