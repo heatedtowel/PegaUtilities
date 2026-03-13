@@ -3,8 +3,12 @@ javascript:(function () {
     const idType = id.split('-')[0].toUpperCase();
     const refSys = id.split('-')[1];
 
-    if (idType === 'INC' || idType === 'PRB') {
+    if (idType === 'INC') {
         window.open(`https://pegasupport.pega.com/prweb/PRAuth/app/support/incidents/${id}`, '_blank').focus();
+    }
+
+    if (idType === 'PRB') {
+        window.open(`https://pegasupport.pega.com/prweb/PRAuth/app/support/problems/${id}`, '_blank').focus();
     }
 
     if (idType === 'BUG') {
